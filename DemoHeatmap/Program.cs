@@ -227,61 +227,10 @@ namespace DemoHeatmap
 
             }
 
-            //image = image.KernalFastBlur(10, 1);
-
             
 
 #endregion demoparsing
 
-            /*
-
-            //Bitmap fromfile = DevILSharp.IL.LoadImage("de_dust2_radar.dds");
-            //Console.Write(DevILSharp.IL.LoadImage("de_dust2_radar.dds"));
-            Bitmap convert = DDS.LoadImage("cs_market_v016_radar.dds", false);//new Bitmap("dust2radar.jpg");
-            convert.Save("Radar.png");
-
-            grayimage image = new grayimage(1024, 1024);
-
-            Radar demoradar = new Radar("cs_market_v016.txt");
-            //Bitmap image = new Bitmap(1024, 1024);
-
-            Console.Write(demoradar.pos_y);
-            Console.Write(demoradar.pos_x);
-            Console.Write(demoradar.scale);
-
-
-            DemoParser parser = new DemoParser(File.OpenRead("cs_market.dem"));
-
-            parser.WeaponFired += (object sender, WeaponFiredEventArgs e) =>
-            {
-                int posx = Convert.ToInt32((e.Shooter.Position.X - demoradar.pos_x) / demoradar.scale);
-                int posy = Convert.ToInt32((e.Shooter.Position.Y - demoradar.pos_y) / demoradar.scale) + 1024;
-
-                Console.WriteLine("X: {0} Y: {1}", posx, posy);
-
-                image.SetPixel(posx.Clamp(0, 1023), posy.Clamp(0, 1023).remap(0, 1023, 1023, 0) + 1024, image.bitdepth);
-            };
-
-            parser.ParseHeader();
-
-            try
-            {
-                while (parser.ParseNextTick() != false)
-                {
-
-                }
-            }
-            catch
-            {
-                Console.WriteLine("Attempted to read past end of stream...");
-            }
-
-            //image = image.KernalFastBlur(10, 1);
-
-            image.toBitmap().Save("heatmap_de_dust2.png");
-
-
-            */
 
             Console.Write("End... Press any key to close.");
             Console.ReadLine();
@@ -317,8 +266,6 @@ namespace DemoHeatmap
             - GENERATE WEB DATA
 
             -------------------------------------------
-
-            - PUSH EVERYTHING BACK
 
 
 

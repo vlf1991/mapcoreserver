@@ -32,6 +32,22 @@ namespace DemoHeatmap
             }
         }
 
+
+
+        /*
+
+
+
+                                SOME VERY WIP PROCESSING FUNCTIONS
+
+
+
+       */
+
+
+
+
+
         /// <summary>
         /// Sets the int at the selected pixel
         /// </summary>
