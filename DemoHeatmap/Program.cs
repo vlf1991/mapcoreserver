@@ -171,7 +171,7 @@ namespace DemoHeatmap
 
             parser.WeaponFired += (object sender, WeaponFiredEventArgs e) =>
             {
-                Debug.Info("Added data for shots at {0}, {1}", e.Shooter.Position.X, e.Shooter.Position.Y);
+                //Debug.Info("Added data for shots at {0}, {1}", e.Shooter.Position.X, e.Shooter.Position.Y);
                 fulldata["shots"].Add(new Vector2(e.Shooter.Position.X, e.Shooter.Position.Y));
 
                 /*
@@ -186,7 +186,7 @@ namespace DemoHeatmap
 
             parser.PlayerKilled += (object sender, PlayerKilledEventArgs e) =>
             {
-                Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
+                //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
                 fulldata["deaths"].Add(new Vector2(e.Victim.Position.X, e.Victim.Position.Y));
             };
 
