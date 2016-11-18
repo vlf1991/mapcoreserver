@@ -9,6 +9,7 @@ using System.Drawing;
 using Imaging.DDSReader;
 using System.Diagnostics;
 using System.IO.Compression;
+using System.Threading;
 
 namespace DemoHeatmap
 {
@@ -46,6 +47,8 @@ namespace DemoHeatmap
 
     class Program
     {
+
+
         static int Main(string[] args)
         {
             string serverfolder = "";
@@ -59,7 +62,7 @@ namespace DemoHeatmap
 
             if (args.Length != 2)
             {
-                Console.WriteLine("Usage: demoheatmap.exe <demopath> <mapname>");
+                Debug.Error("Usage: demoheatmap.exe <demopath> <mapname>");
                 Console.ReadLine();
                 return 1;
             }
@@ -80,21 +83,18 @@ namespace DemoHeatmap
 
             #region servercheck
 
-            if (Directory.Exists(serverfolder + "/currentlybugged"))
+            if (Directory.Exists(serverfolder))
             {
-                Debug.Warn("Working directory already exists...");
+                Debug.Warn("Working directory already exists");
             }
-            else
-            {
-                Debug.Info("Creating working directory on disk, adding files");
-                Directory.CreateDirectory(serverfolder);
-                File.Copy(mapfile, serverfolder + "/" + Path.GetFileName(mapfile), true);
 
-                mapfile = serverfolder + "/" + Path.GetFileName(mapfile);
-            }
+            Debug.Info("Adding files");
+            Directory.CreateDirectory(serverfolder);
+            File.Copy(mapfile, serverfolder + "/" + Path.GetFileName(mapfile), true);
+
+            mapfile = serverfolder + "/" + Path.GetFileName(mapfile);
 
             #endregion servercheck
-
 
             #region extractfiles
 
@@ -152,7 +152,6 @@ namespace DemoHeatmap
 
             #endregion workradar
 
-
             #region demoparsing
 
             grayimage image = new grayimage(1024, 1024);
@@ -161,7 +160,7 @@ namespace DemoHeatmap
 
             Dictionary<string, List <Vector2>> fulldata = new Dictionary<string, List<Vector2>>();
 
-            string[] types = {"shots", "deaths"};
+            string[] types = {"shots", "deaths", "smokes", "bombplants"};
 
             foreach(string type in types)
             {
@@ -188,6 +187,18 @@ namespace DemoHeatmap
             {
                 //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
                 fulldata["deaths"].Add(new Vector2(e.Victim.Position.X, e.Victim.Position.Y));
+            };
+
+            parser.SmokeNadeStarted += (object sender, SmokeEventArgs e) =>
+            {
+                //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
+                fulldata["smokes"].Add(new Vector2(e.Position.X, e.Position.Y));
+            };
+
+            parser.BombPlanted += (object sender, BombEventArgs e) =>
+            {
+                //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
+                fulldata["bombplants"].Add(new Vector2(e.Player.Position.X, e.Player.Position.Y));
             };
 
             parser.ParseHeader();

@@ -23,6 +23,11 @@ namespace DemoHeatmap
             }
         }
 
+        public static void Core(string text, params object[] a)
+        {
+            print(text, new raise(ConsoleColor.DarkCyan), "CORE", -1, a);
+        }
+
         public static void Log(string text, params object[] a)
         {
             print(text, new raise(ConsoleColor.Gray), a);
