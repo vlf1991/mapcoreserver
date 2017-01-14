@@ -285,7 +285,7 @@ namespace DemoHeatmap
 
             Thread.Sleep(10);
 
-            while (inuse) { /*Just waiting to deposit stuff */ Debug.Core("Deposit wating"); Thread.Sleep(1000); }
+            while (inuse) { /*Just waiting to deposit stuff */ Debug.Log("Deposit wating"); Thread.Sleep(1000); }
 
             inuse = true;
 

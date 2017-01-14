@@ -10,6 +10,108 @@ using Imaging.DDSReader;
 using System.Diagnostics;
 using System.IO.Compression;
 using System.Threading;
+using DemoHeatmap.demofile;
+using DemoHeatmap.math;
+using ImageProcessor;
+
+namespace DemoHeatmap
+{
+    class Program
+    {
+        static int Main(string[] args)
+        {
+
+            mapdata map = new mapdata("de_aviv_4c.bsp");
+            demodata demo = new demodata("de_aviv_4c.dem");
+
+            generateFlowMap(map, demo).Save("Flow.png");
+            generateHeatMap(map, demo.shotPositions).Save("Shots.png");
+            generateHeatMap(map, demo.deathPositions).Save("Deaths.png");
+
+            Console.ReadKey();
+            return 0;
+        }
+
+        static Bitmap generateFlowMap(mapdata map, demodata demo)
+        {
+            Bitmap overlay = map.radarImage.ScaleImage(1024, 1024);
+            camera cam = new camera();
+            cam.offset = new vector2(map.radarDetails.pos_x, map.radarDetails.pos_y);
+            cam.scale = map.radarDetails.scale;
+
+            Pen pen = new Pen(Color.FromArgb(10, 7, 245, 255), 1.7f);
+
+            using (var graphics = Graphics.FromImage(overlay))
+            {
+                foreach (List<List<vector3>> player in demo.positions.Values.ToList())
+                {
+                    foreach (List<vector3> list in player)
+                    {
+                        for (int i = 0; i < list.Count(); i++)
+                        {
+                            vector2 pa = list[i].worldToScreenSpace(cam);
+                            vector2 pb = list[(i - 1).Clamp(0, list.Count())].worldToScreenSpace(cam);
+
+                            graphics.DrawLine(pen, pa.x, pa.y, pb.x, pb.y);
+                        }
+                    }
+                }
+            }
+
+            return overlay;
+        }
+
+        static Bitmap generateHeatMap(mapdata map, List<vector3> data)
+        {
+            Bitmap overlay = map.radarImage.ScaleImage(1024, 1024);
+            camera cam = new camera();
+            cam.offset = new vector2(map.radarDetails.pos_x, map.radarDetails.pos_y);
+            cam.scale = map.radarDetails.scale;
+
+            Pen pen = new Pen(Color.FromArgb(32, 7, 245, 255), 4f);
+
+            using (var graphics = Graphics.FromImage(overlay))
+            {
+                foreach(vector3 point in data)
+                {
+                    vector2 ssPoint = point.worldToScreenSpace(cam);
+
+                    graphics.DrawRectangle(pen, new Rectangle((int)ssPoint.x - 1, (int)ssPoint.y - 1, 2, 2));
+                }
+            }
+
+            return overlay;
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using DemoInfo;
+using System.IO;
+using System.Drawing;
+using Imaging.DDSReader;
+using System.Diagnostics;
+using System.IO.Compression;
+using System.Threading;
 
 namespace DemoHeatmap
 {
@@ -27,13 +129,23 @@ namespace DemoHeatmap
             return min1 + (val - min1) * (max2 - min2) / (max1 - min1);
         }
 
+        public static int remapClamped(this int val, int min1, int max1, int min2, int max2)
+        {
+            return val.remap(min1, max1, min2, max2).Clamp(min2, max2);
+        }
+
         public static int Abs(this int val)
         {
             return Math.Abs(val);
         }
+
+        public static Vector2 worldToImagePosition(this Vector3 val, Vector2 offset, float scale)
+        {
+            return new Vector2(Convert.ToInt32((val.x - offset.x) / scale), Convert.ToInt32((val.y - offset.y) / scale + 1024));
+        }
     }
 
-    public class Vector2
+    public struct Vector2
     {
         public float x;
         public float y;
@@ -45,245 +157,155 @@ namespace DemoHeatmap
         }
     }
 
+    public struct Vector3
+    {
+        public float x;
+        public float y;
+        public float z;
+
+        public Vector3(float X, float Y, float Z)
+        {
+            x = X;
+            y = Y;
+            z = Z;
+        }
+    }
+
+    public class gameTracker
+    {
+        public Dictionary<int, playerTracker> players = new Dictionary<int, playerTracker>();
+
+        public void addRound()
+        {
+            foreach (playerTracker tracker in players.Values.ToList())
+                tracker.positions.Add(new List<Vector3>());
+        }
+    }
+
+    public class playerTracker
+    {
+        public List<List<Vector3>> positions = new List<List<Vector3>>();
+
+        public playerTracker()
+        {
+            positions.Add(new List<Vector3>());
+        }
+
+        public void addPos(Vector3 pos)
+        {
+            positions.Last().Add(pos);
+        }
+    }
+
     class Program
     {
 
-
         static int Main(string[] args)
         {
-            string serverfolder = "";
-            string mapname = "";
+            bool debug = true;
 
-            string demofile = "";
-            string mapfile = "";
+            string demofile = @"D:\Creative\Software\Mapcore\MapcoreServer\DemoHeatmap\DemoHeatmap\bin\Debug\aviv.dem";
 
-
-            #region args
-
-            if (args.Length != 2)
+            int ticks = 0;
+            if(debug)
             {
-                Debug.Error("Usage: demoheatmap.exe <demopath> <mapname>");
-                Console.ReadLine();
-                return 1;
-            }
-
-            Debug.Info("Processing demo {0}, mapfile {1}", args[0], args[1]);
-
-            //Setting strings
-
-            mapname = args[1].Replace(".bsp", "");
-            serverfolder = "files/" + mapname;
-
-            Debug.Info("Working directory {0}", serverfolder);
-
-            demofile = args[0];
-            mapfile = args[1];
-
-            #endregion args
-
-            #region servercheck
-
-            if (Directory.Exists(serverfolder))
-            {
-                Debug.Warn("Working directory already exists");
-            }
-
-            Debug.Info("Adding files");
-            Directory.CreateDirectory(serverfolder);
-            File.Copy(mapfile, serverfolder + "/" + Path.GetFileName(mapfile), true);
-
-            mapfile = serverfolder + "/" + Path.GetFileName(mapfile);
-
-            #endregion servercheck
-
-            #region extractfiles
-
-            //Construct arguments
-            string extractzip = Path.GetFullPath(serverfolder) + "/" + mapname + ".zip";
-
-            string extractarg = "-extract \"" + Path.GetFullPath(mapfile) + "\" \"" + extractzip + "\"";
-
-            
-
-            //Console.WriteLine(extractarg);
-
-            Process bspzip = new Process();
-            bspzip.StartInfo = new ProcessStartInfo
-            {
-                FileName = Environment.CurrentDirectory + "/bspzip.exe",
-
-                Arguments = extractarg,
-                UseShellExecute = false
-            };
-            bspzip.Start();
-            bspzip.WaitForExit();
-
-            //Extract zip to folder
-
-            Debug.Info("Extracting...");
-
-            using (var zip = ZipFile.OpenRead(extractzip))
-            {
-                foreach(var entry in zip.Entries.ToList())
+                DemoParser par = new DemoParser(File.OpenRead(demofile));
+                par.ParseHeader();
+                par.TickDone += (object sender, TickDoneEventArgs e) => { ticks++; };
+                try
                 {
-                    if (entry.FullName.ToLower().Contains("overviews"))
-                    {
-                        Directory.CreateDirectory(Path.GetFullPath(serverfolder) + "/" + Path.GetDirectoryName(entry.FullName));
-
-
-                        entry.ExtractToFile(Path.GetFullPath(serverfolder) + "/" + entry.FullName, true);
-                        Debug.Success("Extracted " + entry.FullName);
-                    }
+                    par.ParseToEnd();
                 }
+                catch
+                {
+                    Debug.Warn("Attempted read past stream...");
+                }
+                GC.Collect();
             }
-
-            #endregion
-
-            #region workradar
-
-            Radar demoradar = new Radar(serverfolder + "/resource/overviews/" + mapname + ".txt");
-
-            Debug.Success("Radar file parsed");
-
-            Bitmap convert = DDS.LoadImage(serverfolder + "/resource/" + demoradar.matpath + ".dds", false);//new Bitmap("dust2radar.jpg");
-            convert.Save(serverfolder + "/resource/overviews/" + mapname + "_radar.png");
-
-            Debug.Success("Radar texture converted and saved as type .png");
-
-            #endregion workradar
-
-            #region demoparsing
-
-            grayimage image = new grayimage(1024, 1024);
 
             DemoParser parser = new DemoParser(File.OpenRead(demofile));
 
-            Dictionary<string, List <Vector2>> fulldata = new Dictionary<string, List<Vector2>>();
+            gameTracker tracker = new gameTracker();
 
-            string[] types = {"shots", "deaths", "smokes", "bombplants"};
-
-            foreach(string type in types)
+            parser.RoundStart += (object sender, RoundStartedEventArgs e) =>
             {
-                fulldata.Add(type, new List<Vector2>());
-            }
-
-
-            parser.WeaponFired += (object sender, WeaponFiredEventArgs e) =>
-            {
-                //Debug.Info("Added data for shots at {0}, {1}", e.Shooter.Position.X, e.Shooter.Position.Y);
-                fulldata["shots"].Add(new Vector2(e.Shooter.Position.X, e.Shooter.Position.Y));
-
-                /*
-                int posx = Convert.ToInt32((e.Shooter.Position.X - demoradar.pos_x) / demoradar.scale);
-                int posy = Convert.ToInt32((e.Shooter.Position.Y - demoradar.pos_y) / demoradar.scale) + 1024;
-
-                Debug.Info("X: {0} Y: {1}", posx, posy);
-
-                image.SetPixel(posx.Clamp(0, 1023), posy.Clamp(0, 1023).remap(0, 1023, 1023, 0) + 1024, image.bitdepth);
-                */
-            };
-
-            parser.PlayerKilled += (object sender, PlayerKilledEventArgs e) =>
-            {
-                //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
-                fulldata["deaths"].Add(new Vector2(e.Victim.Position.X, e.Victim.Position.Y));
-            };
-
-            parser.SmokeNadeStarted += (object sender, SmokeEventArgs e) =>
-            {
-                //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
-                fulldata["smokes"].Add(new Vector2(e.Position.X, e.Position.Y));
-            };
-
-            parser.BombPlanted += (object sender, BombEventArgs e) =>
-            {
-                //Debug.Info("Added data for deaths at {0}, {1}", e.Victim.Position.X, e.Victim.Position.Y);
-                fulldata["bombplants"].Add(new Vector2(e.Player.Position.X, e.Player.Position.Y));
+                tracker.addRound();
+                Debug.Info("New round!");
             };
 
             parser.ParseHeader();
+
+
+            Debug.progressBar("Parsing", 0);
+
+            int tickC = 0;
 
             try
             {
                 while (parser.ParseNextTick() != false)
                 {
+                    if(tickC % 500 == 0)
+                        Debug.updateProgressBar(Convert.ToInt32(((float)tickC / (float)ticks) * 100));
+                    tickC++;
 
+                    foreach (DemoInfo.Player player in parser.PlayingParticipants)
+                    {
+                        if (!tracker.players.ContainsKey(player.EntityID))
+                        {
+                            Debug.Success("New player found! {0}", player.EntityID);
+                            tracker.players.Add(player.EntityID, new playerTracker());
+                        }
+
+                        if(player.IsAlive)
+                            tracker.players[player.EntityID].addPos(new Vector3(player.Position.X, player.Position.Y, player.Position.Z));
+                    }
                 }
             }
             catch
             {
+                Debug.exitProgressBar();
                 Debug.Warn("Attempted to read past end of stream...");
             }
+            Debug.exitProgressBar();
 
             Debug.Success("Finished reading demo file");
 
-            foreach(KeyValuePair<string, List<Vector2>> entry in fulldata)
+
+
+
+            Bitmap overlay = new Bitmap(1024, 1024);
+
+
+            Pen pen = new Pen(Color.FromArgb(16, Color.Red), 1);
+
+            using (var graphics = Graphics.FromImage(overlay))
             {
-                grayimage workImage = new grayimage(1024, 1024);
-
-                Debug.Info("Processing heat data for {0}", entry.Key);
-                foreach(Vector2 p in entry.Value)
+                foreach(playerTracker player in tracker.players.Values.ToList())
                 {
-                    int posx = Convert.ToInt32((p.x - demoradar.pos_x) / demoradar.scale);
-                    int posy = Convert.ToInt32((p.y - demoradar.pos_y) / demoradar.scale) + 1024;
+                    Debug.Info("Processing new player");
+                    foreach(List<Vector3> list in player.positions)
+                    {
+                        for(int i = 0; i < list.Count(); i++)
+                        {
+                            Vector2 pa = list[i].worldToImagePosition(new Vector2(-3517, 2546), 5);
+                            Vector2 pb = list[(i - 1).Clamp(0, list.Count())].worldToImagePosition(new Vector2(-3517, 2546), 5);
 
-                    workImage.SetPixel(posx.Clamp(0, 1023), posy.Clamp(0, 1023).remap(0, 1023, 1023, 0) + 1024, image.bitdepth);
+                            graphics.DrawLine(pen, pa.x, pa.y, pb.x, pb.y);
+                        }
+                    }
                 }
-                Debug.Success("Completed image for {0}. Saving to disk...", entry.Key);
-
-                Directory.CreateDirectory(serverfolder + "/exported/");
-                workImage.toBitmap().Save(serverfolder + "/exported/" + mapname + "_heatmap_" + entry.Key + ".png");
-
-                Debug.Info("Saved image");
-
             }
 
-            
-
-#endregion demoparsing
+            overlay.Save("D:/wow.png");
 
 
-            Console.Write("End... Press any key to close.");
-            Console.ReadLine();
 
+                Console.ReadLine();
 
             return 0;
-
-
-            /*STEPS
-
-            -------------------------------------------
-
-[]          - READ SOME MAP CONTEXT (Map file name, version etc)
-
-            -------------------------------------------
-
-[]          - CHECK IF DATA EXISTS ON SERVER
-[]          - COPY FILES TO FOLDER
-
-            -------------------------------------------
-
-[]          - EXTRACT RADAR FILES FROM BSP
-[]          - PARSE RADAR COORDINATES
-            
-            -------------------------------------------
-
-[]          - READ AND PARSE DEMO
-[]          - GENERATE STATIC PIXEL MAPS
-[]          - SAVE TO DISK
-            
-            -------------------------------------------
-
-            - GENERATE WEB DATA
-
-            -------------------------------------------
-
-
-
-
-
-
-            */
         }
     }
 }
+
+
+*/

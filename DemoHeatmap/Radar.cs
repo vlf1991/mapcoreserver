@@ -9,13 +9,6 @@ namespace DemoHeatmap
 {
     class Radar
     {
-        enum Status
-        {
-            clear,
-            isreading
-        }
-        
-
         public int pos_x;
         public int pos_y;
         public float scale;
@@ -34,9 +27,8 @@ namespace DemoHeatmap
             {
                 List<string> blocks = new List<string>();
 
-                Status status = Status.clear;
-                int count = 0;
 
+                int count = 0;
                 foreach (char c in line)
                 {
                     if (c == '\"')
