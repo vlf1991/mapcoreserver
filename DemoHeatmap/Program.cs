@@ -13,6 +13,7 @@ using System.Threading;
 using DemoHeatmap.demofile;
 using DemoHeatmap.math;
 using ImageProcessor;
+using System.Drawing.Imaging;
 
 namespace DemoHeatmap
 {
@@ -21,12 +22,46 @@ namespace DemoHeatmap
         static int Main(string[] args)
         {
 
-            mapdata map = new mapdata("de_aviv_4c.bsp");
-            demodata demo = new demodata("de_aviv_4c.dem");
+            string mapfile = "";
+            string demofile = "";
 
-            generateFlowMap(map, demo).Save("Flow.png");
-            generateHeatMap(map, demo.shotPositions).Save("Shots.png");
-            generateHeatMap(map, demo.deathPositions).Save("Deaths.png");
+            foreach (string str in args)
+            {
+                if(Path.GetExtension(str) == ".dem")
+                {
+                    demofile = str;
+                    Debug.Success("Loaded demo file");
+                }
+                else if(Path.GetExtension(str) == ".bsp")
+                {
+                    mapfile = str;
+                    Debug.Success("Loaded map file");
+                }
+            }
+
+            if(mapfile == "" || demofile == "")
+            {
+                Debug.Error("Not enough sufficient files were found in order to run.");
+            }
+
+            mapdata map = new mapdata(mapfile);
+            demodata demo = new demodata(demofile);
+
+            string generated = Environment.CurrentDirectory + "/files/" + Path.GetFileNameWithoutExtension(mapfile) + "/";
+            Debug.Log("Generate dir: {0}", generated);
+
+            generateFlowMap(map, demo).Save(generated + "Flowmap.png");
+            generateHeatMap(map, demo.shotPositions, generated + "Shots.png");
+            generateHeatMap(map, demo.deathPositions, generated + "Deaths.png");
+            generateHeatMap(map, demo.smokePositions, generated + "Smokes.png");
+            generateHeatMap(map, demo.bombplantPositions, generated + "BombPlants.png");
+
+            System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+            {
+                FileName = generated,
+                UseShellExecute = true,
+                Verb = "open"
+            });
 
             Console.ReadKey();
             return 0;
@@ -61,14 +96,21 @@ namespace DemoHeatmap
             return overlay;
         }
 
-        static Bitmap generateHeatMap(mapdata map, List<vector3> data)
+        static Bitmap generateHeatMap(mapdata map, List<vector3> data, string path)
         {
-            Bitmap overlay = map.radarImage.ScaleImage(1024, 1024);
+            //Bitmap background = map.radarImage.ScaleImage(1024, 1024);
+            Bitmap overlay = new Bitmap(1024, 1024, PixelFormat.Format32bppArgb);
+
+            using (var graphics = Graphics.FromImage(overlay))
+            {
+                graphics.Clear(Color.Transparent);
+            }
+
             camera cam = new camera();
             cam.offset = new vector2(map.radarDetails.pos_x, map.radarDetails.pos_y);
             cam.scale = map.radarDetails.scale;
 
-            Pen pen = new Pen(Color.FromArgb(32, 7, 245, 255), 4f);
+            Pen pen = new Pen(Color.FromArgb(32, 7, 245, 255), 2f);
 
             using (var graphics = Graphics.FromImage(overlay))
             {
@@ -78,6 +120,23 @@ namespace DemoHeatmap
 
                     graphics.DrawRectangle(pen, new Rectangle((int)ssPoint.x - 1, (int)ssPoint.y - 1, 2, 2));
                 }
+            }
+
+            using (var imageFactory = new ImageFactory())
+            {
+                string tempPath = Path.GetFullPath(path);
+                imageFactory.Load(overlay).GaussianBlur(10).Save(tempPath);
+                Debug.Log("Saved intensity map to {0}", tempPath);
+
+                //ImageProcessor.Imaging.ImageLayer over = new ImageProcessor.Imaging.ImageLayer();
+                //over.Image = new Bitmap(tempPath);
+
+                //imageFactory.Load(background)
+                //    .Overlay(over)
+                //    .Save(Environment.CurrentDirectory + "/temp/test2.png");
+
+                //Debug.Log("Saved final map to {0}", path);
+
             }
 
             return overlay;
