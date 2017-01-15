@@ -89,6 +89,7 @@ namespace DemoHeatmap
                         {
                             for (int i = 0; i < list.Count(); i++)
                             {
+
                                 vector2 pa = list[i].worldToScreenSpace(cam);
                                 vector2 pb = list[(i - 1).Clamp(0, list.Count())].worldToScreenSpace(cam);
 
