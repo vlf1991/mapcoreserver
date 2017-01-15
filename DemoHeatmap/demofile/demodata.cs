@@ -11,7 +11,7 @@ namespace DemoHeatmap.demofile
 {
     public class demodata
     {
-        public Dictionary<int, List<List<vector3>>> positions = new Dictionary<int, List<List<vector3>>>();
+        public List<Dictionary<int, List<List<vector3>>>> positions = new List<Dictionary<int, List<List<vector3>>>>();
 
         public List<vector3> shotPositions = new List<vector3>();
         public List<vector3> deathPositions = new List<vector3>();
@@ -25,7 +25,8 @@ namespace DemoHeatmap.demofile
             DemoParser scan2 = new DemoParser(File.OpenRead(path));
             scan2.RoundStart += (object o, RoundStartedEventArgs e) =>
             {
-                foreach (List<List<vector3>> chunks in positions.Values.ToList())
+                for(int i = 0; i < 2; i++)
+                foreach (List<List<vector3>> chunks in positions[i].Values.ToList())
                 {
                     chunks.Add(new List<vector3>());
                 }
@@ -52,20 +53,28 @@ namespace DemoHeatmap.demofile
 
             Debug.progressBar("Reading", 0);
 
+            positions.Add(new Dictionary<int, List<List<vector3>>>());
+            positions.Add(new Dictionary<int, List<List<vector3>>>());
+
             int c = 0;
             while(scan2.ParseNextTick() != false)
             {
                 foreach(DemoInfo.Player info in scan2.PlayingParticipants)
                 {
-                    if (!positions.ContainsKey(info.EntityID))
+                    int team = 0;
+
+                    if(info.Team == Team.Terrorist)
+                        team = 1;
+
+                    if (!positions[team].ContainsKey(info.EntityID))
                     {
-                        positions.Add(info.EntityID, new List<List<vector3>>());
+                        positions[team].Add(info.EntityID, new List<List<vector3>>());
                         Debug.Log("+{0}/", info.EntityID);
                     }
 
                     if (info.IsAlive)
-                        if(positions[info.EntityID].Count != 0)
-                            positions[info.EntityID].Last().Add(new vector3(info.Position.X, info.Position.Y, info.Position.Z));
+                        if(positions[team][info.EntityID].Count != 0)
+                            positions[team][info.EntityID].Last().Add(new vector3(info.Position.X, info.Position.Y, info.Position.Z));
 
                 }
 

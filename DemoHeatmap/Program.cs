@@ -78,16 +78,22 @@ namespace DemoHeatmap
 
             using (var graphics = Graphics.FromImage(overlay))
             {
-                foreach (List<List<vector3>> player in demo.positions.Values.ToList())
+                for (int b = 0; b < 2; b++)
                 {
-                    foreach (List<vector3> list in player)
-                    {
-                        for (int i = 0; i < list.Count(); i++)
-                        {
-                            vector2 pa = list[i].worldToScreenSpace(cam);
-                            vector2 pb = list[(i - 1).Clamp(0, list.Count())].worldToScreenSpace(cam);
+                    if (b == 1)
+                        pen = new Pen(Color.FromArgb(15, 209, 120, 12), 1.7f);
 
-                            graphics.DrawLine(pen, pa.x, pa.y, pb.x, pb.y);
+                    foreach (List<List<vector3>> player in demo.positions[b].Values.ToList())
+                    {
+                        foreach (List<vector3> list in player)
+                        {
+                            for (int i = 0; i < list.Count(); i++)
+                            {
+                                vector2 pa = list[i].worldToScreenSpace(cam);
+                                vector2 pb = list[(i - 1).Clamp(0, list.Count())].worldToScreenSpace(cam);
+
+                                graphics.DrawLine(pen, pa.x, pa.y, pb.x, pb.y);
+                            }
                         }
                     }
                 }
