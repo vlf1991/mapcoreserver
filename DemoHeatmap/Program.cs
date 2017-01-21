@@ -14,6 +14,8 @@ using DemoHeatmap.demofile;
 using DemoHeatmap.math;
 using ImageProcessor;
 using System.Drawing.Imaging;
+using DemoHeatmap.steam;
+using DemoHeatmap.IO;
 
 namespace DemoHeatmap
 {
@@ -21,6 +23,79 @@ namespace DemoHeatmap
     {
         static int Main(string[] args)
         {
+            //First thing: Read the demo file header. This gives us all the information we need to run the program from
+            //Since it stores stuff like length, mapname etc.
+
+            //Do parsing
+            DemoParser demofile = new DemoParser(File.OpenRead("sanchez.dem"));
+            demofile.ParseHeader();
+
+            //TRY AND FIND INSTANCE OF MAP ON DISK
+            Debug.Info("Scanning for map on disk");
+
+            //Do workshop check
+            bool isWorkshop = false;
+            string checkPath = "maps/";
+            string localname = demofile.Map;
+
+            if (demofile.Map.StartsWith("workshop")) //Detected its a workshop map
+            {
+                isWorkshop = true;
+                checkPath = "maps/workshop/"; //Switch to the workshopped folder
+                Debug.Log("Map workshopped");
+
+                //Sets the local name to something that will not cause collisions
+                string[] demoref = demofile.Map.Split('/');
+                localname = demoref[1] + demoref[2];
+            }
+
+            //Go through the folder to check if the instance is still there
+            foreach(string map in Directory.GetFiles(checkPath, "*.maprad"))
+            {
+                if(Path.GetFileNameWithoutExtension(map) == localname)
+                {
+                    Debug.Success("Found match on disk! {0}", map); //phew, no need to flood steam servers!
+
+                    //Since it found a pre-downloaded instance it can just carry on with that instance + demo
+
+                    doProcessing(serialwrite.Binary.ReadFromBinaryFile<mapData>(map), demofile);
+
+                    //Exit the loop and method
+                    Console.ReadLine();
+                    return 0;
+                }
+            }
+
+            //So the map wasn't found, therefore look for it on the workshop
+            if (isWorkshop)
+            {
+                Debug.Info("Workshop map was not found on disk, downloading now...");
+                WorkshopFile file = WorkshopFile.get(new WorkshopURI(demofile.Map)); //Workshop file
+
+                Workshop.download(file, "maps/workshop/" + localname); //Download to disk
+                bspinfo.UnpackBSP("maps/workshop/" + localname, "maps/workshop/" + localname);
+                Debug.Success("Finished downloading from the workshop!");
+
+                doProcessing(serialwrite.Binary.ReadFromBinaryFile<mapData>("maps/workshop" + localname + ".maprad"), demofile);
+
+                Console.ReadLine();
+                return 0;
+            }
+            else
+            {
+                // This bit will only occur if all three conditions are true:
+                // The map has not been downloaded
+                // The map is not on the workshop or is not public
+                // The map is not official
+
+                Debug.Error("There is no public known location of the map. Install the map first!");
+            }
+
+            Console.ReadLine();
+            return 0;
+
+            #region old
+            /*shite
 
             string mapfile = "";
             string demofile = "";
@@ -78,6 +153,8 @@ namespace DemoHeatmap
 
             using (var graphics = Graphics.FromImage(overlay))
             {
+                int testx = 0;
+
                 for (int b = 0; b < 2; b++)
                 {
                     if (b == 1)
@@ -96,6 +173,9 @@ namespace DemoHeatmap
                                 graphics.DrawLine(pen, pa.x, pa.y, pb.x, pb.y);
                             }
                         }
+
+                        testx++;
+                        overlay.Save(testx + ".png");
                     }
                 }
             }
@@ -147,6 +227,20 @@ namespace DemoHeatmap
             }
 
             return overlay;
+            */
+            #endregion
+        }
+
+        /// <summary>
+        /// This method handles all the sequencing required to generate data from the mapData file
+        /// </summary>
+        /// <param name="mapfile">The mapfile to process</param>
+        static void doProcessing(mapData mapfile, DemoParser parser)
+        {
+            Debug.Success("Starting processing");
+
+            //First step: Make a grey version of the radar.
+
         }
     }
 }

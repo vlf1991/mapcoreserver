@@ -48,11 +48,18 @@
       <HintPath>..\packages\Newtonsoft.Json.9.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="SuperSimpleHTTP">
+      <HintPath>..\SuperSimpleHTTP\bin\Debug\SuperSimpleHTTP.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.IO.Compression" />
     <Reference Include="System.IO.Compression.FileSystem" />
+    <Reference Include="System.Net.Http.Formatting, Version=5.2.3.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.WebApi.Client.5.2.3\lib\net45\System.Net.Http.Formatting.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,11 +71,15 @@
     <Compile Include="demofile\demodata.cs" />
     <Compile Include="demofile\mapdata.cs" />
     <Compile Include="imaging.cs" />
+    <Compile Include="IO\serialwrite.cs" />
     <Compile Include="math\math.cs" />
     <Compile Include="steamlib.cs" />
     <Compile Include="Debug.cs" />
     <None Include="grayimage.bak" />
     <Compile Include="Program.cs" />
+    <Compile Include="steam\bspinfo.cs" />
+    <Compile Include="steam\Radar.cs" />
+    <Compile Include="steam\workshop.cs" />
     <Compile Include="transforms.cs" />
     <None Include="Program.baker" />
     <Compile Include="Properties\AssemblyInfo.cs" />

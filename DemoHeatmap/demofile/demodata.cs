@@ -57,30 +57,44 @@ namespace DemoHeatmap.demofile
             positions.Add(new Dictionary<int, List<List<vector3>>>());
 
             int c = 0;
-            while(scan2.ParseNextTick() != false)
+            try
             {
-                foreach(DemoInfo.Player info in scan2.PlayingParticipants)
+                while (scan2.ParseNextTick() != false)
                 {
-                    int team = 0;
-
-                    if(info.Team == Team.Terrorist)
-                        team = 1;
-
-                    if (!positions[team].ContainsKey(info.EntityID))
+                    foreach (DemoInfo.Player info in scan2.PlayingParticipants)
                     {
-                        positions[team].Add(info.EntityID, new List<List<vector3>>());
-                        Debug.Log("+{0}/", info.EntityID);
+                        int team = 0;
+
+                        if (info.Team == Team.Terrorist)
+                            team = 1;
+
+                        if (!positions[team].ContainsKey(info.EntityID))
+                        {
+                            positions[team].Add(info.EntityID, new List<List<vector3>>());
+                            Debug.Log("+{0}/", info.EntityID);
+                        }
+
+                        if (info.IsAlive)
+                            if (positions[team][info.EntityID].Count != 0)
+                                positions[team][info.EntityID].Last().Add(new vector3(info.Position.X, info.Position.Y, info.Position.Z));
+
                     }
 
-                    if (info.IsAlive)
-                        if(positions[team][info.EntityID].Count != 0)
-                            positions[team][info.EntityID].Last().Add(new vector3(info.Position.X, info.Position.Y, info.Position.Z));
-
+                    c++;
+                    if (c % 500 == 0)
+                        try
+                        {
+                            Debug.updateProgressBar(Convert.ToInt32(scan2.ParsingProgess * 100).Clamp(0, 100));
+                        }
+                        catch
+                        {
+                            
+                        }
                 }
-
-                c++;
-                if (c % 500 == 0)
-                    Debug.updateProgressBar(Convert.ToInt32(scan2.ParsingProgess * 100).Clamp(0, 100));
+            }
+            catch
+            {
+                Debug.Error("Something went wrong while reading stream");
             }
 
             Debug.exitProgressBar();

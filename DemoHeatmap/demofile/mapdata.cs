@@ -93,6 +93,7 @@ namespace DemoHeatmap.demofile
         }
     }
 
+    [Serializable]
     class Radar
     {
         public int pos_x;
