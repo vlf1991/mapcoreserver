@@ -48,6 +48,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Compile>
     <Compile Include="heatmaps\maps.cs" />
+    <Compile Include="imaging\bitmapfilters.cs" />
     <Compile Include="math\math.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
