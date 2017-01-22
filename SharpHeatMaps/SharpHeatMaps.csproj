@@ -44,7 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="gradients\gradient.cs" />
+    <Compile Include="gradients\gradient.cs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="heatmaps\maps.cs" />
     <Compile Include="math\math.cs" />
     <Compile Include="Program.cs" />
@@ -55,6 +57,10 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="gradients\blue-green-red.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="gradients\fire.png" />
+    <Content Include="gradients\purple-red-yellow-withalpha.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="gradients\purple-red-yellow.png">
