@@ -1,5 +1,7 @@
 # Mapcore Server Demo Processing
-Mapcore CSGO playtesting serverside processing tool
+It does stuff like this:
+![A flow map](http://i.imgur.com/GN61K01.png)
+![A heatmap](http://i.imgur.com/Zm4XNAw.png)
 
 ## Parts of the software
 ### DemoHeatmap
@@ -15,6 +17,7 @@ Needed to plot data onto image files
 - Apply and load gradient maps
 - Plot splodges onto a density map
 - Bake density map into Heatmap then back to bitmap
+![A gradient map applied to a kitty](http://i.imgur.com/rWE8OsW.png)
 
 ### SuperSimpleHTTP
 Because I was frustrated with how little HTTP and messily supported HTTP reuqests are in C#, I decided to make my own Python - requests module style library. This made it far easier when sending steam api calls.
@@ -22,7 +25,16 @@ Because I was frustrated with how little HTTP and messily supported HTTP reuqest
 - Make a POST request and capture output
 - Make a GET request and capture output
 
+### DemoHeatmapGUI
+The UI portion of the code! At the moment very minimal
+![The UI currently](http://i.imgur.com/NYF0gVe.png)
+
 ## External Libraries used
+### Demoinfogo
+- This library was incredibly useful in parsing demo files and getting neccessary information for the fundemental parts of the program to run.
+
+Repo [Here](https://github.com/StatsHelix/demoinfo)
+
 ### DDS Reader
 Original Repo by [Micolous](https://github.com/micolous/igaeditor),
 Refactored by [Andburn](https://github.com/andburn/dds-reader)
