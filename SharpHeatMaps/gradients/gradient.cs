@@ -15,6 +15,8 @@ namespace SharpHeatMaps.gradients
     {
         public static image_gradient blue_green_red = new image_gradient("gradients/blue-green-red.png");
         public static image_gradient purple_red_yellow = new image_gradient("gradients/purple-red-yellow.png");
+        public static image_gradient purple_red_yellow_withalpha = new image_gradient("gradients/purple-red-yellow-withalpha.png");
+        public static image_gradient fire = new image_gradient("gradients/fire.png");
     }
 
     public class image_gradient
@@ -29,20 +31,26 @@ namespace SharpHeatMaps.gradients
         {
             Bitmap source = new Bitmap(path);
             gradientBits = imgLowLvl.fastbits(source);
+
+            foreach(byte bit in gradientBits.a)
+            {
+                Console.Write(" " + bit);
+            }
         }
 
         public Bitmap applyToImage(Bitmap image)
         {
             imgLowLvl.imagebits allbits = imgLowLvl.fastbits(image);
 
-            int gradLen = gradientBits.a.Length;
+            int gradLen = gradientBits.a.Length - 1;
 
             for(int i = 0; i < allbits.r.Length; i++)
             {
                 int average = (allbits.r[i] + allbits.g[i] + allbits.b[i]) / 3;
-                allbits.r[i] = gradientBits.r[average.remap(0, 255, 0, gradLen)];
-                allbits.g[i] = gradientBits.g[average.remap(0, 255, 0, gradLen)];
-                allbits.b[i] = gradientBits.b[average.remap(0, 255, 0, gradLen)];
+                allbits.r[i] = gradientBits.r[average.remapClamped(0, 255, 0, gradLen)];
+                allbits.g[i] = gradientBits.g[average.remapClamped(0, 255, 0, gradLen)];
+                allbits.b[i] = gradientBits.b[average.remapClamped(0, 255, 0, gradLen)];
+                allbits.a[i] = gradientBits.a[average.remapClamped(0, 255, 0, gradLen)];
             }
 
             return imgLowLvl.imageBitsToBitMap(allbits, image.Width, image.Height);
@@ -79,9 +87,9 @@ namespace SharpHeatMaps.gradients
 
             for (int i = 0; i < img.r.Length; i++)
             {
-                orderedbits[i * 4] = img.r[i];
+                orderedbits[i * 4] = img.b[i];
                 orderedbits[i * 4 + 1] = img.g[i];
-                orderedbits[i * 4 + 2] = img.b[i];
+                orderedbits[i * 4 + 2] = img.r[i];
                 orderedbits[i * 4 + 3] = img.a[i];
             }
 

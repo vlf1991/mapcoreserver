@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using SharpHeatMaps.heatmaps;
 using SharpHeatMaps.math;
+using SharpHeatMaps.gradients;
 
 namespace SharpHeatMaps
 {
@@ -43,7 +44,12 @@ namespace SharpHeatMaps
             denstest.averageBlur3x3();
             denstest.normalise();
 
-            denstest.toBitMap().Save("test.png");
+
+            gradients.gradients.fire.applyToImage(denstest.toBitMap()).Save("test2.png");
+
+            //denstest.toBitMap().Save("test.png");
+
+
         }
     }
 }
