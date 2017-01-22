@@ -94,6 +94,10 @@
       <Project>{e8e2e010-da59-4a99-8331-b986b84c0fd2}</Project>
       <Name>DDSReader</Name>
     </ProjectReference>
+    <ProjectReference Include="..\SharpHeatMaps\SharpHeatMaps.csproj">
+      <Project>{966291f9-b1b8-4fb9-a0c6-3e29bdb82e48}</Project>
+      <Name>SharpHeatMaps</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <Content Include="resources\mapcore_logo.png">
