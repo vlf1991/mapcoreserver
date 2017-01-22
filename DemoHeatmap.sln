@@ -11,7 +11,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SuperSimpleHTTP", "SuperSim
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpHeatMaps", "SharpHeatMaps\SharpHeatMaps.csproj", "{966291F9-B1B8-4FB9-A0C6-3E29BDB82E48}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SharpGradients", "SharpGradients\SharpGradients.csproj", "{93EA6D69-FE01-48A0-8716-23542A87BD3A}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoHeatmapGUI", "DemoHeatmapGUI\DemoHeatmapGUI.csproj", "{3CB5F54D-3905-4B04-9072-35A1A9DD21CC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -35,10 +35,10 @@ Global
 		{966291F9-B1B8-4FB9-A0C6-3E29BDB82E48}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{966291F9-B1B8-4FB9-A0C6-3E29BDB82E48}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{966291F9-B1B8-4FB9-A0C6-3E29BDB82E48}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93EA6D69-FE01-48A0-8716-23542A87BD3A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93EA6D69-FE01-48A0-8716-23542A87BD3A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93EA6D69-FE01-48A0-8716-23542A87BD3A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93EA6D69-FE01-48A0-8716-23542A87BD3A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3CB5F54D-3905-4B04-9072-35A1A9DD21CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3CB5F54D-3905-4B04-9072-35A1A9DD21CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3CB5F54D-3905-4B04-9072-35A1A9DD21CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3CB5F54D-3905-4B04-9072-35A1A9DD21CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

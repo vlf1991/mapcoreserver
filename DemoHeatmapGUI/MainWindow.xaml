@@ -1,0 +1,15 @@
+﻿<Window x:Class="DemoHeatmapGUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoHeatmapGUI"
+        mc:Ignorable="d"
+        Title="CS:GO Demo Heatmaps" Height="350" Width="525">
+    <Grid>
+        <StackPanel Name="DemoPanel" Drop="DemoPanel_Drop" AllowDrop="true" VerticalAlignment="Center">
+            <Label HorizontalAlignment="Center" FontSize="18" FontFamily="Wasco Sans" FontStyle="Italic" Foreground="#FF999999" Height="60">Drag a demo file here!</Label>
+            <Image Source="images/logo_target.png" Width="128"/>
+        </StackPanel>
+    </Grid>
+</Window>
