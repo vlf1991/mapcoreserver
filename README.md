@@ -1,7 +1,7 @@
 # Mapcore Server Demo Processing
-It does stuff like this:
-![A flow map](http://i.imgur.com/GN61K01.png)
-![A heatmap](http://i.imgur.com/Zm4XNAw.png)
+##Examples of the software output:
+![A flow map](http://i.imgur.com/TkLPT4e.png)
+![A heatmap](http://i.imgur.com/gXhkgYw.png)
 
 ## Parts of the software
 ### DemoHeatmap
@@ -17,6 +17,7 @@ Needed to plot data onto image files
 - Apply and load gradient maps
 - Plot splodges onto a density map
 - Bake density map into Heatmap then back to bitmap
+
 ![A gradient map applied to a kitty](http://i.imgur.com/rWE8OsW.png)
 
 ### SuperSimpleHTTP
