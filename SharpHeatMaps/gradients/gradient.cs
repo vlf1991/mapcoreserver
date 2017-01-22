@@ -31,11 +31,6 @@ namespace SharpHeatMaps.gradients
         {
             Bitmap source = new Bitmap(path);
             gradientBits = imgLowLvl.fastbits(source);
-
-            foreach(byte bit in gradientBits.a)
-            {
-                Console.Write(" " + bit);
-            }
         }
 
         public Bitmap applyToImage(Bitmap image)

@@ -16,6 +16,10 @@ using ImageProcessor;
 using System.Drawing.Imaging;
 using DemoHeatmap.steam;
 using DemoHeatmap.IO;
+using SharpHeatMaps.heatmaps;
+using SharpHeatMaps.gradients;
+using SharpHeatMaps.imaging;
+
 
 namespace DemoHeatmap
 {
@@ -27,7 +31,7 @@ namespace DemoHeatmap
             //Since it stores stuff like length, mapname etc.
 
             //Do parsing
-            DemoParser demofile = new DemoParser(File.OpenRead("sanchez.dem"));
+            DemoParser demofile = new DemoParser(File.OpenRead("solution.dem"));
             demofile.ParseHeader();
 
             //TRY AND FIND INSTANCE OF MAP ON DISK
@@ -76,7 +80,7 @@ namespace DemoHeatmap
                 bspinfo.UnpackBSP("maps/workshop/" + localname, "maps/workshop/" + localname);
                 Debug.Success("Finished downloading from the workshop!");
 
-                doProcessing(serialwrite.Binary.ReadFromBinaryFile<mapData>("maps/workshop" + localname + ".maprad"), demofile);
+                doProcessing(serialwrite.Binary.ReadFromBinaryFile<mapData>("maps/workshop/" + localname + ".maprad"), demofile);
 
                 Console.ReadLine();
                 return 0;
@@ -239,8 +243,44 @@ namespace DemoHeatmap
         {
             Debug.Success("Starting processing");
 
-            //First step: Make a grey version of the radar.
+            //First step: Make a grey dark version of the radar.
+            Bitmap backgroundRadar = bitmapfilters.brightness(bitmapfilters.greyScaleAverage(mapfile.image_radar), 0.3f);
 
+            //Second step: Load the demo into a demodatainstance, so that it parses into different lists.
+            demodatainstance demo = new demodatainstance(parser);
+
+            //Third step: Start making heatmaps
+            densitymap density_shotsfired = new densitymap();
+
+            //Legacy, Make the camera object
+            camera cam = new camera();
+            cam.offset = new vector2(mapfile.radar.pos_x, mapfile.radar.pos_y);
+            cam.scale = mapfile.radar.scale;
+
+            foreach (p_Team tm in demo.teams)
+            {
+                foreach (p_Player plyr in tm.players.Values.ToList())
+                {
+                    foreach (p_Round rnd in plyr.rounds)
+                    {
+                        foreach (vector3 shot in rnd.shotsFired)
+                        {
+                            vector2 screenPos = transforms.worldToScreenSpace(shot, cam);
+                            density_shotsfired.createHeatMapSplodge((int)screenPos.x, (int)screenPos.y, 20);
+                        }
+                    }
+                }
+            }
+
+            density_shotsfired.averageBlur3x3();
+            density_shotsfired.normalise(0.4f);
+
+            Bitmap output = density_shotsfired.toBitMap();
+            output = gradients.fire.applyToImage(output);
+
+            output = bitmapfilters.alphaOver(backgroundRadar, output);
+
+            output.Save("test_shotsfired.png");
         }
     }
 }

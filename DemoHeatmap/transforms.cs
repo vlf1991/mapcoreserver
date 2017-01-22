@@ -64,7 +64,7 @@ namespace DemoHeatmap
         {
 
             return new vector2(Convert.ToInt32((position.x - cam.offset.x) / cam.scale).Clamp(0, (int)cam.resolution.x),
-                (Convert.ToInt32((position.y - cam.offset.y) / cam.scale) + 1024).remap(0, (int)cam.resolution.y, (int)cam.resolution.y, 0) + (int)cam.resolution.y);
+                (Convert.ToInt32((position.y - cam.offset.y) / cam.scale) + 1024));
         }
     }
 }
