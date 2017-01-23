@@ -39,6 +39,7 @@ namespace DemoHeatmap
         }
     }
 
+    [Serializable]
     public struct vector3
     {
         public float x;

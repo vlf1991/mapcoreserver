@@ -8,6 +8,7 @@ using DemoInfo;
 namespace DemoHeatmap.demofile
 {
     //Each round for each player is packed and put into the player's list
+    [Serializable]
     public class p_Round
     {
         //A list of all the positions the player was
@@ -16,6 +17,7 @@ namespace DemoHeatmap.demofile
     }
 
     //Holds all information about what the player did that game
+    [Serializable]
     public class p_Player
     {
         public long steamID;
@@ -34,6 +36,7 @@ namespace DemoHeatmap.demofile
         }
     }
 
+    [Serializable]
     public class p_Grenade
     {
         //Where did it blow up?
@@ -41,6 +44,7 @@ namespace DemoHeatmap.demofile
     }
 
     //The team class.
+    [Serializable]
     public class p_Team
     {
         //Holds a list of players that are on that team
@@ -50,13 +54,31 @@ namespace DemoHeatmap.demofile
         public List<p_Grenade> grenades = new List<p_Grenade>();
     }
 
+    [Serializable]
     public class demodatainstance
     {
         //Holds a list of [2] teams, CT and T side 
         public List<p_Team> teams = new List<p_Team>();
 
+        //General Information about the demofile
+        public string mapname;
+        public string ctName;
+        public string tName;
+        public string serverName;
+        public int ctScore;
+        public int tScore;
+
+        //Initialisation step, should fire when parsing the demo for first time
         public demodatainstance(DemoParser parser)
         {
+            //Assign basic information
+            mapname = parser.Map;
+            ctName = parser.CTClanName;
+            tName = parser.TClanName;
+            serverName = parser.Header.ServerName;
+            ctScore = parser.CTScore;
+            tScore = parser.TScore;
+
             //Subscribe to events here
             parser.WeaponFired += (object o, WeaponFiredEventArgs e) =>
             {

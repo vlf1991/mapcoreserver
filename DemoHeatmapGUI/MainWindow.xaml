@@ -7,9 +7,57 @@
         mc:Ignorable="d"
         Title="CS:GO Demo Heatmaps" Height="350" Width="525">
     <Grid>
-        <StackPanel Name="DemoPanel" Drop="DemoPanel_Drop" AllowDrop="true" VerticalAlignment="Center">
-            <Label HorizontalAlignment="Center" FontSize="18" FontFamily="Wasco Sans" FontStyle="Italic" Foreground="#FF999999" Height="60">Drag a demo file here!</Label>
-            <Image Source="images/logo_target.png" Width="128"/>
-        </StackPanel>
+        <Grid>
+            <TabControl>
+                <!--Demo files-->
+                <TabItem>
+                    
+                    <TabItem.Header>
+                        <Label Content="Demos"/>
+                    </TabItem.Header>
+                    
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <!--ADD DEMOS HEADER-->
+                        <StackPanel Orientation="Horizontal">
+                            <Button>Browse</Button>
+                            <Button>Load Folder</Button>
+                            <Label Foreground="#FF383838">
+                                Or drag a .dem file here!
+                            </Label>
+                        </StackPanel>
+                        <!--////////////////-->
+                        
+                        <!--DEMOS PLANE-->
+
+                        <ScrollViewer x:Name="DemoPanel" HorizontalContentAlignment="Center" PanningMode="VerticalOnly" SnapsToDevicePixels="True" CanContentScroll="True" Grid.Row="1" Background="#FFF1F1F1" AllowDrop="True" Drop="DemoPanel_Drop">
+                            <StackPanel x:Name="c_models_list" CanVerticallyScroll="True">
+                                <StackPanel.Background>
+                                    <ImageBrush ImageSource="images/logo_target.png" Stretch="Uniform" Opacity="0.8">
+                                        <ImageBrush.RelativeTransform>
+                                            <TransformGroup>
+                                                <ScaleTransform CenterY="0.5" CenterX="0.5" ScaleX="0.4" ScaleY="0.4"/>
+                                                <TranslateTransform/>
+                                            </TransformGroup>
+                                        </ImageBrush.RelativeTransform>
+                                    </ImageBrush>
+                                </StackPanel.Background>
+                            </StackPanel>
+                        </ScrollViewer>
+                        
+                        <!--///////////-->
+                    </Grid>
+                </TabItem>
+
+                <TabItem>
+                    <TabItem.Header>
+                        <Label Content="Manage Levels"/>
+                    </TabItem.Header>
+                </TabItem>
+            </TabControl>
+        </Grid>
     </Grid>
 </Window>
