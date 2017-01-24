@@ -7,6 +7,7 @@
         mc:Ignorable="d"
         Title="CS:GO Demo Heatmaps" Height="350" Width="525">
     <Grid>
+        
         <Grid>
             <TabControl>
                 <!--Demo files-->
@@ -59,5 +60,7 @@
                 </TabItem>
             </TabControl>
         </Grid>
+        <Image />
     </Grid>
+    
 </Window>

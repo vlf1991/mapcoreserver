@@ -71,10 +71,5 @@ namespace DemoHeatmap.demofile
             stat.activeParser = demofile;
             return stat;
         }
-
-        public static void installMap(mapstatus dlStatus)
-        {            
-
-        }
     }
 }

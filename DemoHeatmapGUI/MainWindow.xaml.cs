@@ -42,7 +42,8 @@ namespace DemoHeatmapGUI
                 }
                 else
                 {
-                    MessageBox.Show("Map is not downloaded :C");
+                    InstallMapDialogue insMap = new InstallMapDialogue(status.activeParser);
+                    insMap.Show();
                 }
                 if(status.isWorkshop)
                 {
