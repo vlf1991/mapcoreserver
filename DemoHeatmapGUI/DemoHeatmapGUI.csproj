@@ -98,6 +98,12 @@
   <ItemGroup>
     <Resource Include="images\logo_target.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DemoHeatmap\DemoHeatmap.csproj">
+      <Project>{c3649d9e-3e3a-45d7-a76a-18d8b9ef94a2}</Project>
+      <Name>DemoHeatmap</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

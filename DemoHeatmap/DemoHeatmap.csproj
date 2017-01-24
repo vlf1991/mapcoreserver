@@ -70,6 +70,7 @@
   <ItemGroup>
     <Compile Include="demofile\demodata.cs" />
     <Compile Include="demofile\demodatainstance.cs" />
+    <Compile Include="demofile\demoreading.cs" />
     <Compile Include="demofile\mapdata.cs" />
     <Compile Include="imaging.cs" />
     <Compile Include="IO\serialwrite.cs" />

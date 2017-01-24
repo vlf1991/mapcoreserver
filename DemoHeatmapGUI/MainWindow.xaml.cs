@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using DemoHeatmap.demofile;
 
 namespace DemoHeatmapGUI
 {
@@ -32,9 +33,25 @@ namespace DemoHeatmapGUI
                 // Note that you can have more than one file.
                 string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
 
-                // Assuming you have one file that you care about, pass it off to whatever
-                // handling code you have defined.
-                MessageBox.Show(files[0]);
+                // MessageBox.Show(files[0]);
+
+                demoreading.mapstatus status = demoreading.isDownloaded(files[0]);
+                if(status.isDownloaded)
+                {
+                    MessageBox.Show("Map is downloaded!");
+                }
+                else
+                {
+                    MessageBox.Show("Map is not downloaded :C");
+                }
+                if(status.isWorkshop)
+                {
+                    MessageBox.Show("Map is workshop");
+                }
+                else
+                {
+                    MessageBox.Show("Map is not workshop :C");
+                }
             }
         }
     }
