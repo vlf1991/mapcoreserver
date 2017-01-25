@@ -128,6 +128,52 @@ namespace DemoHeatmap.steam
             }
         }
 
+        public static void monitoredDownload(WorkshopFile self, string outputFolder, Action<int, int> callback, Action downloadComplete)
+        {
+            //Make sure its actually a folder, not a file
+            if (Path.HasExtension(outputFolder))
+                throw new ArgumentException("pathname must reference a folder", "outputFolder");
+            else
+            {
+                outputFolder += "/";//make sure it will place stuff in the folder, not an instance of its name + var
+
+                //Create the directory if it doesn't exist
+                if (!Directory.Exists(outputFolder))
+                    Directory.CreateDirectory(outputFolder);
+
+                WebClient client = new WebClient();
+                client.DownloadProgressChanged += (object o, DownloadProgressChangedEventArgs e) =>
+                {
+                    callback((int)e.BytesReceived, (int)e.TotalBytesToReceive); //Report progress
+                };
+
+                //WRONG HANDLER TYPE. TODO: FIX THIS AND MAKE IT FIRE WHEN DOWNLOAD COMPLETE!
+                client.DownloadDataCompleted += (object o, DownloadDataCompletedEventArgs e) =>
+                {
+                    //Extract the zip
+                    using (var zip = ZipFile.OpenRead(outputFolder + "download.zip"))
+                    {
+                        foreach (var entry in zip.Entries.ToList())
+                        {
+                            entry.ExtractToFile(outputFolder + entry.FullName, true); //Extract the file to its download folder
+                        }
+                    }
+
+                    downloadComplete();
+                };
+
+                //Download the file from the workshop
+                client.DownloadFileAsync(new Uri(self.response.publishedfiledetails[0].file_url, UriKind.Absolute), outputFolder + "download.zip");
+                
+
+                client.Dispose();
+
+
+            }
+        }
+
+        
+
         public static BitmapImage downloadUGCImage(string url)
         {
             WebClient wc = new WebClient();

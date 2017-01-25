@@ -54,9 +54,18 @@ namespace DemoHeatmapGUI
 
         private void Install_Click(object sender, RoutedEventArgs e)
         {
-            Workshop.download(workshopfile, "maps/workshop/" + globalStat.localname); //Download to disk
+            Workshop.monitoredDownload(workshopfile, "maps/workshop/" + globalStat.localname, updateProgress, afterDownload); //Download to disk
+        }
+
+        private void updateProgress(int received, int toreceive)
+        {
+            target_dlprogress.Value = ((float)received / (float)toreceive)*100;
+        }
+
+        private void afterDownload()
+        {
             bspinfo.UnpackBSP("maps/workshop/" + globalStat.localname, "maps/workshop/" + globalStat.localname);
-            MessageBox.Show("Map installed!");
+            MessageBox.Show("Finished downloading!");
         }
     }
 }
