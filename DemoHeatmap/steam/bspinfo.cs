@@ -50,6 +50,7 @@ namespace DemoHeatmap.steam
                 {
                     FileName = Environment.CurrentDirectory + "/bspzip.exe",
                     Arguments = extractarg,
+                    CreateNoWindow = true, //Make sure to create no window since its gui now
                     UseShellExecute = false,
                 };
 
