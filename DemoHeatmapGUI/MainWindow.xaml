@@ -4,19 +4,20 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoHeatmapGUI"
-        mc:Ignorable="d"
+
+    mc:Ignorable="d"
         Title="CS:GO Demo Heatmaps" Height="350" Width="525">
     <Grid>
-        
+
         <Grid>
             <TabControl>
                 <!--Demo files-->
                 <TabItem>
-                    
+
                     <TabItem.Header>
                         <Label Content="Demos"/>
                     </TabItem.Header>
-                    
+
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -31,7 +32,7 @@
                             </Label>
                         </StackPanel>
                         <!--////////////////-->
-                        
+
                         <!--DEMOS PLANE-->
 
                         <ScrollViewer x:Name="DemoPanel" HorizontalContentAlignment="Center" PanningMode="VerticalOnly" SnapsToDevicePixels="True" CanContentScroll="True" Grid.Row="1" Background="#FFF1F1F1" AllowDrop="True" Drop="DemoPanel_Drop">
@@ -48,7 +49,7 @@
                                 </StackPanel.Background>
                             </StackPanel>
                         </ScrollViewer>
-                        
+
                         <!--///////////-->
                     </Grid>
                 </TabItem>
@@ -60,7 +61,6 @@
                 </TabItem>
             </TabControl>
         </Grid>
-        <Image />
     </Grid>
     
 </Window>

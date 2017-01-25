@@ -26,6 +26,7 @@ namespace DemoHeatmap.demofile
             public bool isDownloaded;
             public bool isWorkshop;
             public DemoParser activeParser;
+            public string localname;
         }
 
         public static mapstatus isDownloaded(string demoPath)
@@ -43,7 +44,7 @@ namespace DemoHeatmap.demofile
             //Do workshop check
             stat.isWorkshop = false;
             string checkPath = "maps/";
-            string localname = demofile.Map;
+            stat.localname = demofile.Map;
 
             if (demofile.Map.StartsWith("workshop")) //Detected its a workshop map
             {
@@ -54,13 +55,13 @@ namespace DemoHeatmap.demofile
 
                 //Sets the local name to something that will not cause collisions
                 string[] demoref = demofile.Map.Split('/');
-                localname = demoref[1] + demoref[2];
+                stat.localname = demoref[1] + demoref[2];
             }
 
             //Go through the folder to check if the instance is still there
             foreach (string map in Directory.GetFiles(checkPath, "*.maprad"))
             {
-                if (Path.GetFileNameWithoutExtension(map) == localname)
+                if (Path.GetFileNameWithoutExtension(map) == stat.localname)
                 {
                     Debug.Success("Found match on disk! {0}", map); //phew, no need to flood steam servers!
                     stat.isDownloaded = true;

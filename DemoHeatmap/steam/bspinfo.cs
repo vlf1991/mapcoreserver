@@ -20,7 +20,7 @@ namespace DemoHeatmap.steam
         public Bitmap image_radar_spectate;
     }
 
-    class bspinfo
+    public class bspinfo
     {
         public struct paths
         {

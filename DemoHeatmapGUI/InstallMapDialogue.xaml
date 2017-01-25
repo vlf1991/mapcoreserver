@@ -8,11 +8,22 @@
         Title="InstallMapDialogue" Height="300" Width="300">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="128"/>
+            <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <Image x:Name="target_previewImage"/>
-        <Label x:Name="target_mapname" Grid.Row="1"/>
+        <StackPanel Orientation="Vertical">
+            <Label x:Name="target_mapname">target__mapname</Label>
+
+            <Image x:Name="target_previewImage" Source="images/missing_image.png" Stretch="Fill"/>
+        </StackPanel>
+
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <Label Grid.Row="1" x:Name="target_mapcreator">target__mapcreator</Label>
+            <StackPanel Orientation="Horizontal" Grid.Row="1">
+                <Button Content="Install from workshop" Height="50" Click="Install_Click"/>
+                <Button Content="Cancel"/>
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>

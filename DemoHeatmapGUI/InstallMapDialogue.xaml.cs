@@ -23,23 +23,40 @@ namespace DemoHeatmapGUI
     /// </summary>
     public partial class InstallMapDialogue : Window
     {
+        demoreading.mapstatus globalStat;
+        WorkshopFile workshopfile;
+
         public InstallMapDialogue(demoreading.mapstatus status)
         {
             InitializeComponent();
 
-            if(status.isWorkshop)
+            globalStat = status;
+
+            if (status.isWorkshop)
             {
-                WorkshopFile workshopPrev = WorkshopFile.get(new WorkshopURI(status.activeParser.Map));
-                target_mapname.Content = "Workshop: " + workshopPrev.response.publishedfiledetails[0].filename;
+                //Download the workshop object (only info)
+                workshopfile = WorkshopFile.get(new WorkshopURI(globalStat.activeParser.Map));
 
-                target_previewImage.Source = //new BitmapImage(new Uri(workshopPrev.response.publishedfiledetails[0].hcontent_preview, UriKind.Absolute));
+                //Set mapname title
+                target_mapname.Content = workshopfile.response.publishedfiledetails[0].title + "   |   " + workshopfile.response.publishedfiledetails[0].file_size / 1024 / 1024 + " mb";
 
+                //Temporarily using the description for this box right now
+                string desc = workshopfile.response.publishedfiledetails[0].description;
+                if (desc.Length > 128)
+                    desc = desc.Substring(0, 128) + "...";
+                target_mapcreator.Content = desc;
 
-                Workshop.downloadUGCImage(workshopPrev.response.publishedfiledetails[0].preview_url);
-
-                //new BitmapImage( workshopPrev.response.publishedfiledetails[0].hcontent_preview);
+                //Set the preview image
+                target_previewImage.Source = Workshop.downloadUGCImage(workshopfile.response.publishedfiledetails[0].preview_url);
             }
 
+        }
+
+        private void Install_Click(object sender, RoutedEventArgs e)
+        {
+            Workshop.download(workshopfile, "maps/workshop/" + globalStat.localname); //Download to disk
+            bspinfo.UnpackBSP("maps/workshop/" + globalStat.localname, "maps/workshop/" + globalStat.localname);
+            MessageBox.Show("Map installed!");
         }
     }
 }
