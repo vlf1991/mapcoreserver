@@ -42,16 +42,8 @@ namespace DemoHeatmapGUI
                 }
                 else
                 {
-                    InstallMapDialogue insMap = new InstallMapDialogue(status.activeParser);
+                    InstallMapDialogue insMap = new InstallMapDialogue(status);
                     insMap.Show();
-                }
-                if(status.isWorkshop)
-                {
-                    MessageBox.Show("Map is workshop");
-                }
-                else
-                {
-                    MessageBox.Show("Map is not workshop :C");
                 }
             }
         }

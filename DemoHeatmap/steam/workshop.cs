@@ -10,7 +10,8 @@ using SuperSimpleHTTP.requests;
 using System.IO.Compression;
 using System.Diagnostics;
 using DemoHeatmap.IO;
-
+using System.Drawing;
+using System.Windows.Media.Imaging;
 
 namespace DemoHeatmap.steam
 {
@@ -125,6 +126,27 @@ namespace DemoHeatmap.steam
                     }
                 }
             }
+        }
+
+        public static BitmapImage downloadUGCImage(string url)
+        {
+            WebClient wc = new WebClient();
+            byte[] imageData = wc.DownloadData(url);
+
+            if (imageData == null || imageData.Length == 0) return null;
+            var image = new BitmapImage();
+            using (var mem = new MemoryStream(imageData))
+            {
+                mem.Position = 0;
+                image.BeginInit();
+                image.CreateOptions = BitmapCreateOptions.PreservePixelFormat;
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.UriSource = null;
+                image.StreamSource = mem;
+                image.EndInit();
+            }
+            image.Freeze();
+            return image;
         }
     }
 
