@@ -12,6 +12,7 @@ using System.Diagnostics;
 using DemoHeatmap.IO;
 using System.Drawing;
 using System.Windows.Media.Imaging;
+using System.ComponentModel;
 
 namespace DemoHeatmap.steam
 {
@@ -148,8 +149,9 @@ namespace DemoHeatmap.steam
                 };
 
                 //WRONG HANDLER TYPE. TODO: FIX THIS AND MAKE IT FIRE WHEN DOWNLOAD COMPLETE!
-                client.DownloadDataCompleted += (object o, DownloadDataCompletedEventArgs e) =>
+                client.DownloadFileCompleted += (sender, e) =>
                 {
+                    Console.WriteLine("download complete");
                     //Extract the zip
                     using (var zip = ZipFile.OpenRead(outputFolder + "download.zip"))
                     {
@@ -172,7 +174,12 @@ namespace DemoHeatmap.steam
             }
         }
 
-        
+        public static void complete(object sender, AsyncCompletedEventArgs e)
+        {
+
+        }
+
+
 
         public static BitmapImage downloadUGCImage(string url)
         {

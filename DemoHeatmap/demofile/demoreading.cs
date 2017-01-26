@@ -72,5 +72,16 @@ namespace DemoHeatmap.demofile
             stat.activeParser = demofile;
             return stat;
         }
+
+        public struct demoPreview
+        {
+            string name;
+            string mapname;
+
+        }
+        public static string[] getDemos()
+        {
+
+        }
     }
 }
