@@ -81,9 +81,38 @@ namespace DemoHeatmap.demofile
             string mapname;
         }
 
-        public void processDemo(string path)
+        public static void saveDemo(demodatainstance instance, mapstatus stat)
         {
+            DateTime now = DateTime.Now;
+            string filePath = Environment.CurrentDirectory + "/demos/" + now.Year + "-" + now.Month + "-" + now.Day + "-" + now.Hour + "-" + now.Minute + "-" + now.Second + "_" + stat.filename + ".replay";
 
+            serialwrite.Binary.WriteToBinaryFile<demodatainstance>(filePath, instance);
+            serialwrite.Binary.WriteToBinaryFile<demostat>(filePath + "ts", instance.info);
+        }
+
+        //Gets a list of demostats to display demos
+        public static List<demostat> getSavedDemos()
+        {
+            List<demostat> all = new List<demostat>();
+            string[] demofiles = Directory.GetFiles("demos", "*.replayts");
+
+            foreach(string filename in demofiles)
+            {
+                demostat instance = serialwrite.Binary.ReadFromBinaryFile<demostat>(filename); //Read file into mem
+                instance.filepath = Path.ChangeExtension(filename, ".replay"); //Add the filepath to it
+                all.Add(instance); //Add it to the list
+            }
+
+            return all;
+        }
+
+        //Switch to determine if the demostats counter part exists
+        public static bool attachedDemoExist(demostat stat)
+        {
+            if (File.Exists(stat.filepath))
+                return true;
+            else
+                return false;
         }
     }
 }

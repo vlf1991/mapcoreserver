@@ -44,7 +44,8 @@ namespace DemoHeatmapGUI
 
         private void complete(demodatainstance instance)
         {
-            MessageBox.Show("Done!" + instance.teams[0].players.Last());
+            demoreading.saveDemo(instance, stat);
+            MessageBox.Show("Done!");
         }
     }
 }

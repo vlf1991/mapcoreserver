@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DemoHeatmap.demofile;
+using DemoHeatmapGUI.controls;
 
 namespace DemoHeatmapGUI
 {
@@ -24,6 +25,9 @@ namespace DemoHeatmapGUI
         public MainWindow()
         {
             InitializeComponent();
+
+            //Load demos onto the stack panel
+            doLoad();
         }
 
         private void DemoPanel_Drop(object sender, DragEventArgs e)
@@ -47,6 +51,20 @@ namespace DemoHeatmapGUI
                     InstallMapDialogue insMap = new InstallMapDialogue(status);
                     insMap.Show();
                 }
+            }
+        }
+
+        private void doLoad()
+        {
+            List<demostat> stats = demoreading.getSavedDemos();
+
+            foreach(demostat stat in stats)
+            {
+                LoadedDemoControl disp = new LoadedDemoControl(stat, this);
+                
+
+                target_demofiles.Children.Add(disp);
+
             }
         }
     }

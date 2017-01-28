@@ -60,6 +60,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="controls\LoadedDemoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="HeatMapEditorWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="InstallMapDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -71,6 +79,12 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="controls\LoadedDemoControl.xaml.cs">
+      <DependentUpon>LoadedDemoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="HeatMapEditorWindow.xaml.cs">
+      <DependentUpon>HeatMapEditorWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="InstallMapDialogue.xaml.cs">
       <DependentUpon>InstallMapDialogue.xaml</DependentUpon>
@@ -129,6 +143,21 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="images\missing_image.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\teams\team_ct.png" />
+    <Resource Include="images\teams\team_t.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\servers\serverlogo_mapcore.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\servers\serverlogo_cevo.png" />
+    <Resource Include="images\servers\serverlogo_esea.png" />
+    <Resource Include="images\servers\serverlogo_faceit.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="images\servers\serverlogo_generic.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

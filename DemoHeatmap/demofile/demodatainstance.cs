@@ -56,18 +56,34 @@ namespace DemoHeatmap.demofile
     }
 
     [Serializable]
-    public class demodatainstance
+    public class demostat
     {
-        //Holds a list of [2] teams, CT and T side 
-        public List<p_Team> teams = new List<p_Team>();
-
-        //General Information about the demofile
         public string mapname;
         public string ctName;
         public string tName;
         public string serverName;
         public int ctScore;
         public int tScore;
+
+        //set when file is loaded
+        public string filepath;
+    }
+
+    [Serializable]
+    public class demodatainstance
+    {
+        //Holds a list of [2] teams, CT and T side 
+        public List<p_Team> teams = new List<p_Team>();
+
+        //General Information about the demofile
+        //public string mapname;
+        //public string ctName;
+        //public string tName;
+        //public string serverName;
+        //public int ctScore;
+        //public int tScore;
+
+        public demostat info = new demostat();
 
         /*
 
@@ -175,12 +191,12 @@ namespace DemoHeatmap.demofile
 
 
             //Assign basic information
-            mapname = parser.Map;
-            ctName = parser.CTClanName;
-            tName = parser.TClanName;
-            serverName = parser.Header.ServerName;
-            ctScore = parser.CTScore;
-            tScore = parser.TScore;
+            info.mapname = parser.Map;
+            info.ctName = parser.CTClanName;
+            info.tName = parser.TClanName;
+            info.serverName = parser.Header.ServerName;
+            info.ctScore = parser.CTScore;
+            info.tScore = parser.TScore;
 
             //Subscribe to events here
             parser.WeaponFired += (object o, WeaponFiredEventArgs e) =>
@@ -275,12 +291,12 @@ namespace DemoHeatmap.demofile
             demodatainstance testinstance = new demodatainstance(null);
 
             //Assign basic information
-            testinstance.mapname = parser.Map;
-            testinstance.ctName = parser.CTClanName;
-            testinstance.tName = parser.TClanName;
-            testinstance.serverName = parser.Header.ServerName;
-            testinstance.ctScore = parser.CTScore;
-            testinstance.tScore = parser.TScore;
+            testinstance.info.mapname = parser.Map;
+            testinstance.info.ctName = parser.CTClanName;
+            testinstance.info.tName = parser.TClanName;
+            testinstance.info.serverName = parser.Header.ServerName;
+            testinstance.info.ctScore = parser.CTScore;
+            testinstance.info.tScore = parser.TScore;
 
             //Subscribe to events here
             parser.WeaponFired += (object o, WeaponFiredEventArgs e) =>

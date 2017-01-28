@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="DemoHeatmapGUI.controls.LoadedDemoControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DemoHeatmapGUI.controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="30" d:DesignWidth="600">
+    <Grid>
+        <Button x:Name="btn_opendemo" HorizontalContentAlignment="Stretch">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Orientation="Horizontal">
+                    <Image Source="/DemoHeatmapGUI;component/images/teams/team_ct.png" Height="24"/>
+                    <Label x:Name="target_CT_score">XX</Label>
+                    <Label x:Name="target_CT_name">target__CT__name</Label>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <Image x:Name="target_server_logo" Source="/DemoHeatmapGUI;component/images/servers/serverlogo_generic.png" Height="24"/>
+                    <Label x:Name="target_server_name">target__servername</Label>
+                    <Label x:Name="target_map_name">target__mapname</Label>
+                </StackPanel>
+                
+                <StackPanel Orientation="Horizontal" Grid.Column="2">
+                    <Label x:Name="target_T_name">target__T__name</Label>
+                    <Label x:Name="target_T_score">XX</Label>
+                    <Image Source="/DemoHeatmapGUI;component/images/teams/team_t.png" Height="24"/>
+                </StackPanel>
+            </Grid>
+        </Button>
+    </Grid>
+</UserControl>

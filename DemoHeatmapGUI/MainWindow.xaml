@@ -36,7 +36,7 @@
                         <!--DEMOS PLANE-->
 
                         <ScrollViewer x:Name="DemoPanel" HorizontalContentAlignment="Center" PanningMode="VerticalOnly" SnapsToDevicePixels="True" CanContentScroll="True" Grid.Row="1" Background="#FFF1F1F1" AllowDrop="True" Drop="DemoPanel_Drop">
-                            <StackPanel x:Name="c_models_list" CanVerticallyScroll="True">
+                            <StackPanel x:Name="target_demofiles" CanVerticallyScroll="True">
                                 <StackPanel.Background>
                                     <ImageBrush ImageSource="images/logo_target.png" Stretch="Uniform" Opacity="0.8">
                                         <ImageBrush.RelativeTransform>
