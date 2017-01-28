@@ -38,7 +38,9 @@ namespace DemoHeatmapGUI
                 demoreading.mapstatus status = demoreading.isDownloaded(files[0]);
                 if(status.isDownloaded)
                 {
-                    MessageBox.Show("Map is downloaded!");
+                    //Process demo file config window
+                    ProcessDemoDialogue procDemo = new ProcessDemoDialogue(status);
+                    procDemo.Show();
                 }
                 else
                 {

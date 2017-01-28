@@ -1,0 +1,25 @@
+﻿<Window x:Class="DemoHeatmapGUI.ProcessDemoDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoHeatmapGUI"
+        mc:Ignorable="d"
+        Title="ProcessDemoDialogue" Height="147.258" Width="253.786">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+
+        <Label x:Name="target_demoname">target__demoname</Label>
+        
+        <DockPanel  Grid.Row="1">
+            <Button x:Name="btn_startprocessing" Click="btn_startprocessing_Click">Process demo!</Button>
+            <Button x:Name="btn_cancel">Cancel</Button>
+        </DockPanel>
+        
+        <ProgressBar x:Name="target_progress" Minimum="0" Maximum="100" Grid.Row="2"/>
+    </Grid>
+</Window>

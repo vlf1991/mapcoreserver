@@ -27,6 +27,7 @@ namespace DemoHeatmap.demofile
             public bool isWorkshop;
             public DemoParser activeParser;
             public string localname;
+            public string filename;
         }
 
         public static mapstatus isDownloaded(string demoPath)
@@ -69,6 +70,7 @@ namespace DemoHeatmap.demofile
                 }
             }
 
+            stat.filename = Path.GetFileNameWithoutExtension(demoPath);
             stat.activeParser = demofile;
             return stat;
         }
@@ -77,9 +79,9 @@ namespace DemoHeatmap.demofile
         {
             string name;
             string mapname;
-
         }
-        public static string[] getDemos()
+
+        public void processDemo(string path)
         {
 
         }
