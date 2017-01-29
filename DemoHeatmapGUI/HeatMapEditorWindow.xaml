@@ -4,9 +4,23 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:DemoHeatmapGUI"
+        xmlns:controls="clr-namespace:DemoHeatmapGUI.controls"
         mc:Ignorable="d"
-        Title="HeatMapEditorWindow" Height="300" Width="300">
+        Title="HeatMapEditorWindow" Height="600" Width="600">
     <Grid>
-        
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="200"/>
+            </Grid.ColumnDefinitions>
+            <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="#FF838383"/>
+
+            <controls:ImageViewportControl/>
+        </Grid>
     </Grid>
 </Window>

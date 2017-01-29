@@ -1,0 +1,37 @@
+﻿<UserControl x:Class="DemoHeatmapGUI.controls.ImageViewportControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:DemoHeatmapGUI.controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+    <Grid>
+        <Grid.Background>
+            <VisualBrush TileMode="Tile" Stretch="UniformToFill" Viewport="0,0,0.015,0.015">
+                <VisualBrush.Visual>
+                    <Image Source="/DemoHeatmapGUI;component/images/missing_image.png"></Image>
+                </VisualBrush.Visual>
+
+            </VisualBrush>
+        </Grid.Background>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <Border x:Name="border" ClipToBounds="True" Grid.Row="0" BorderBrush="Black" BorderThickness="1">
+            <Border BorderBrush="Gray" BorderThickness="2">
+                <Image x:Name="disp"/>
+            </Border>
+        </Border>
+        <Grid Grid.Row="1" Background="#FF3E3E3E">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                <Button x:Name="btn_zoomout" Content="-" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Click="image_zoomout" Background="#FFDDDDDD" FontSize="18.667" FontWeight="Bold"/>
+                <Rectangle Width="10"/>
+                <Button x:Name="btn_fullscreen" Content="[  ]" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Click="image_full" Background="#FFDDDDDD" FontSize="18.667" FontWeight="Bold"/>
+                <Rectangle Width="10"/>
+                <Button x:Name="btn_zoomin" Content="+" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Click="image_zoomin" Background="#FFDDDDDD" FontSize="18.667" FontWeight="Bold"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

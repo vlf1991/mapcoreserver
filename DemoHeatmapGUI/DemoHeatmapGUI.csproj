@@ -60,6 +60,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Page Include="controls\ImageViewportControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="controls\LoadedDemoControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -80,12 +84,16 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="controls\ImageViewportControl.xaml.cs">
+      <DependentUpon>ImageViewportControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="controls\LoadedDemoControl.xaml.cs">
       <DependentUpon>LoadedDemoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="HeatMapEditorWindow.xaml.cs">
       <DependentUpon>HeatMapEditorWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="imaging\imaging.cs" />
     <Compile Include="InstallMapDialogue.xaml.cs">
       <DependentUpon>InstallMapDialogue.xaml</DependentUpon>
     </Compile>
