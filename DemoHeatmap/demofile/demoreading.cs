@@ -114,5 +114,38 @@ namespace DemoHeatmap.demofile
             else
                 return false;
         }
+
+        public static mapData loadMapFromDisk(string localname)
+        {
+            //Do workshop check
+            bool isWorkshop = false;
+            string checkPath = "maps/";
+
+            if (localname.StartsWith("workshop")) //Detected its a workshop map
+            {
+                isWorkshop = true;
+                checkPath = "maps/workshop/"; //Switch to the workshopped folder
+
+                //Sets the local name to something that will not cause collisions
+                string[] demoref = localname.Split('/');
+                localname = demoref[1] + demoref[2];
+            }
+
+            //Go through the folder to check if the instance is still there
+            foreach(string map in Directory.GetFiles(checkPath, "*.maprad"))
+            {
+                if(Path.GetFileNameWithoutExtension(map) == localname)
+                {
+                    Debug.Success("Found match on disk! {0}", map); //phew, no need to flood steam servers!
+
+                    //Since it found a pre-downloaded instance it can just carry on with that instance + demo
+
+                    return serialwrite.Binary.ReadFromBinaryFile<mapData>(map);
+                }
+            }
+
+            //Else not found:
+            return default(mapData);
+        }
     }
 }

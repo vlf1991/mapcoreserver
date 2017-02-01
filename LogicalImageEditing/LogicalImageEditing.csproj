@@ -4,17 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{93EA6D69-FE01-48A0-8716-23542A87BD3A}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <ProjectGuid>{755EBF3B-8F4F-474F-B756-BA597E9B636D}</ProjectGuid>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SharpGradients</RootNamespace>
-    <AssemblyName>SharpGradients</AssemblyName>
+    <RootNamespace>LogicalImageEditing</RootNamespace>
+    <AssemblyName>LogicalImageEditing</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
@@ -24,7 +22,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <PlatformTarget>AnyCPU</PlatformTarget>
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release\</OutputPath>
@@ -33,6 +30,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="PresentationCore" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
@@ -42,18 +40,21 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
+    <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="color\format.cs" />
-    <Compile Include="gradient.cs" />
-    <Compile Include="math.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Class1.cs" />
+    <Compile Include="filters\layerstyles.cs" />
+    <Compile Include="lowlevel\raw_image.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="transformations\transforms.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
+    <ProjectReference Include="..\LogicalMathFunctions\LogicalMathFunctions.csproj">
+      <Project>{10efb548-d42c-4b5a-a28e-d1aabc24cea8}</Project>
+      <Name>LogicalMathFunctions</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

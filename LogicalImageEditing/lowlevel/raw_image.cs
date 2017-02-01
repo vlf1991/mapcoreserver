@@ -4,74 +4,32 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
-using System.Drawing.Imaging;
 using System.IO;
+using System.Drawing.Imaging;
 using System.Runtime.InteropServices;
-using SharpHeatMaps.math;
+using System.Windows.Media.Imaging;
 
-namespace SharpHeatMaps.gradients
+namespace LogicalImageEditing.lowlevel
 {
-    public static class gradients
-    {
-        public static image_gradient blue_green_red = new image_gradient("gradients/blue-green-red.png");
-        public static image_gradient purple_red_yellow = new image_gradient("gradients/purple-red-yellow.png");
-        public static image_gradient purple_red_yellow_withalpha = new image_gradient("gradients/purple-red-yellow-withalpha.png");
-        public static image_gradient fire = new image_gradient("gradients/fire.png");
-    }
-
-    public class image_gradient
-    {
-        imgLowLvl.imagebits gradientBits;
-
-        /// <summary>
-        /// Loads an image gradient from disk
-        /// </summary>
-        /// <param name="path">The path to load image gradient from</param>
-        public image_gradient(string path)
-        {
-            Bitmap source = new Bitmap(path);
-            gradientBits = imgLowLvl.fastbits(source);
-        }
-
-        public Bitmap applyToImage(Bitmap image)
-        {
-            imgLowLvl.imagebits allbits = imgLowLvl.fastbits(image);
-
-            int gradLen = gradientBits.a.Length - 1;
-
-            for(int i = 0; i < allbits.r.Length; i++)
-            {
-                int average = (allbits.r[i] + allbits.g[i] + allbits.b[i]) / 3;
-                allbits.r[i] = gradientBits.r[average.remapClamped(0, 255, 0, gradLen)];
-                allbits.g[i] = gradientBits.g[average.remapClamped(0, 255, 0, gradLen)];
-                allbits.b[i] = gradientBits.b[average.remapClamped(0, 255, 0, gradLen)];
-                allbits.a[i] = gradientBits.a[average.remapClamped(0, 255, 0, gradLen)];
-            }
-
-            return imgLowLvl.imageBitsToBitMap(allbits, image.Width, image.Height);
-        }
-    }
-
-    [Obsolete("New library created: LogicalImageEditing. Use this instead")]
-    public static class imgLowLvl
+    public static class raw_image
     {
         public struct imagebits
         {
+            public int width;
+            public int height;
+
             public byte[] r;
             public byte[] g;
             public byte[] b;
             public byte[] a;
         }
 
-        /// <summary>
-        /// Converts back to a bitmap image ready for use again
-        /// </summary>
-        /// <returns>The channels all in bitmap form</returns>
-        public static Bitmap imageBitsToBitMap(imagebits img, int x, int y)
+        [Obsolete("Use .toBitMap()")]
+        public static Bitmap imageBitsToBitMap(imagebits img)
         {
-            var b = new Bitmap(x, y, PixelFormat.Format32bppArgb);
+            var b = new Bitmap(img.width, img.height, PixelFormat.Format32bppArgb);
 
-            var BoundsRect = new Rectangle(0, 0, x, y);
+            var BoundsRect = new Rectangle(0, 0, img.width, img.height);
             BitmapData bmpData = b.LockBits(BoundsRect,
                                             ImageLockMode.WriteOnly,
                                             b.PixelFormat);
@@ -94,6 +52,7 @@ namespace SharpHeatMaps.gradients
             return b;
         }
 
+        [Obsolete("Use .toImageBits()")]
         public static imagebits fastbits(Bitmap source)
         {
             // Lock the bitmap's bits.  
@@ -134,9 +93,34 @@ namespace SharpHeatMaps.gradients
             allbits.b = b;
             allbits.a = a;
 
+            allbits.width = bmpData.Width;
+            allbits.height = bmpData.Height;
+
             source.UnlockBits(bmpData);
 
             return allbits;
+        }
+
+        //New extension methods
+        public static Bitmap toBitMap(this imagebits img)
+        {
+            return imageBitsToBitMap(img);
+        }
+        public static imagebits toImageBits(this Bitmap source)
+        {
+            return fastbits(source);
+        }
+
+        public static BitmapImage toBitMapImage(this Bitmap src)
+        {
+            MemoryStream ms = new MemoryStream();
+            ((System.Drawing.Bitmap)src).Save(ms, System.Drawing.Imaging.ImageFormat.Bmp);
+            BitmapImage image = new BitmapImage();
+            image.BeginInit();
+            ms.Seek(0, SeekOrigin.Begin);
+            image.StreamSource = ms;
+            image.EndInit();
+            return image;
         }
     }
 }

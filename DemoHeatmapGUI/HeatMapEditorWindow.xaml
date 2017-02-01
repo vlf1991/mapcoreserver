@@ -25,9 +25,9 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
-                
+
                 <StackPanel Orientation="Vertical">
-                    <Expander Header="Players">
+                    <Expander Header="Players" IsExpanded="True">
                         <StackPanel Orientation="Vertical">
                             <Label>CT team:</Label>
                             <WrapPanel x:Name="target_playerpanel_CT">
@@ -40,12 +40,40 @@
                             </WrapPanel>
                         </StackPanel>
                     </Expander>
+
+                    <Expander Header="Heatmap Options" IsExpanded="True">
+                        <StackPanel Orientation="Vertical">
+                            <CheckBox Content="Show Player Paths"/>
+                            <CheckBox Content="Shots fired"/>
+                        </StackPanel>
+                    </Expander>
+
+                    <Expander Header="Gradient Options" IsExpanded="True">
+                        <StackPanel Orientation="Vertical">
+                            <ComboBox>
+                                <ComboBoxItem Content="Fire"/>
+                                <ComboBoxItem Content="Blue"/>
+                            </ComboBox>
+                            
+                            <DockPanel>
+                                <TextBlock Text="{Binding Value, ElementName=val_samplemidpoint_slider, StringFormat=Sampling Midpoint: {0:N0}}" Width="120"/>
+                                <Slider Maximum="100" Value="50" x:Name="val_samplemidpoint_slider"/>
+                            </DockPanel>
+
+                            <DockPanel>
+                                <TextBlock Text="{Binding Value, ElementName=val_dialation_slider, StringFormat=Dialation Size: {0:N0}}" Width="100"/>
+                                <Slider Minimum="3" Maximum="40" Value="20" x:Name="val_dialation_slider"/>
+                            </DockPanel>
+
+                            <CheckBox x:Name="toggle_blur" Content="Blur heatmap" IsChecked="True"/>
+
+                        </StackPanel>
+                    </Expander>
                 </StackPanel>
-                <Button Grid.Row="1" Content="Generate"/>
+                <Button Grid.Row="1" Content="Generate" Click="btn_Generate_Click"/>
             </Grid>
 
-
-            <controls:ImageViewportControl/>
+            <controls:ImageViewportControl x:Name="target_currentview"/>
         </Grid>
     </Grid>
 </Window>

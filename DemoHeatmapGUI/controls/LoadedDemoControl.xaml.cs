@@ -22,6 +22,10 @@ namespace DemoHeatmapGUI.controls
     /// </summary>
     public partial class LoadedDemoControl : UserControl
     {
+        // ----------------------------------------------------------- //
+        // TODO: CHECK IF MAP IS INSTALLED AND ADD WARNING IF IT INS'T //
+        // ----------------------------------------------------------- //
+
         public LoadedDemoControl(demostat dispStat, MainWindow main)
         {
             InitializeComponent();

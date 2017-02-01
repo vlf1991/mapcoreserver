@@ -7,18 +7,10 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.Drawing.Drawing2D;
 
-namespace DemoHeatmap
+namespace LogicalImageEditing.transformations
 {
-    public static class imaging
+    public static class transforms
     {
-        /// <summary>
-        /// Resizes an image to a set width and height
-        /// </summary>
-        /// <param name="img">Source bitmap image</param>
-        /// <param name="width">New width</param>
-        /// <param name="height">New Height</param>
-        /// <returns>Bitmap that is scaled</returns>
-        [Obsolete("Use LogicalImageEditing for this")]
         public static Bitmap ScaleImage(this Bitmap img, int width, int height)
         {
             //Blank canvas object
