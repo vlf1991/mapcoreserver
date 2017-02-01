@@ -7,7 +7,7 @@ using System.IO;
 
 namespace DemoHeatmap.IO
 {
-    class serialwrite
+    public class serialwrite
     {
         /// <summary>
         /// Functions for performing common binary Serialization operations.

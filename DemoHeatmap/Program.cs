@@ -257,17 +257,15 @@ namespace DemoHeatmap
             cam.offset = new vector2(mapfile.radar.pos_x, mapfile.radar.pos_y);
             cam.scale = mapfile.radar.scale;
 
-            foreach (p_Team tm in demo.teams)
+
+            foreach (p_Player plyr in demo.players.Values.ToList())
             {
-                foreach (p_Player plyr in tm.players.Values.ToList())
+                foreach (p_Round rnd in plyr.rounds)
                 {
-                    foreach (p_Round rnd in plyr.rounds)
+                    foreach (vector3 shot in rnd.shotsFired)
                     {
-                        foreach (vector3 shot in rnd.shotsFired)
-                        {
-                            vector2 screenPos = transforms.worldToScreenSpace(shot, cam);
-                            density_shotsfired.createHeatMapSplodge((int)screenPos.x, (int)screenPos.y, 20);
-                        }
+                        vector2 screenPos = transforms.worldToScreenSpace(shot, cam);
+                        density_shotsfired.createHeatMapSplodge((int)screenPos.x, (int)screenPos.y, 20);
                     }
                 }
             }

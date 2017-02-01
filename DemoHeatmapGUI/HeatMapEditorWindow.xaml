@@ -20,6 +20,31 @@
             </Grid.ColumnDefinitions>
             <GridSplitter Grid.Column="1" Width="5" HorizontalAlignment="Stretch" Background="#FF838383"/>
 
+            <Grid Grid.Column="2">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                
+                <StackPanel Orientation="Vertical">
+                    <Expander Header="Players">
+                        <StackPanel Orientation="Vertical">
+                            <Label>CT team:</Label>
+                            <WrapPanel x:Name="target_playerpanel_CT">
+                                <!-- Items added here dynamically -->
+                            </WrapPanel>
+
+                            <Label>T team:</Label>
+                            <WrapPanel x:Name="target_playerpanel_T">
+                                <!-- Items added here dynamically-->
+                            </WrapPanel>
+                        </StackPanel>
+                    </Expander>
+                </StackPanel>
+                <Button Grid.Row="1" Content="Generate"/>
+            </Grid>
+
+
             <controls:ImageViewportControl/>
         </Grid>
     </Grid>

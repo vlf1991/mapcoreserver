@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DemoHeatmap.demofile;
+using DemoHeatmap.IO;
 
 namespace DemoHeatmapGUI.controls
 {
@@ -44,7 +45,7 @@ namespace DemoHeatmapGUI.controls
             //Set the click event
             btn_opendemo.Click += (sender, e) =>
             {
-                HeatMapEditorWindow editor = new HeatMapEditorWindow();
+                HeatMapEditorWindow editor = new HeatMapEditorWindow(serialwrite.Binary.ReadFromBinaryFile<demodatainstance>(dispStat.filepath));
                 editor.Show();
                 main.IsEnabled = false;
             };
