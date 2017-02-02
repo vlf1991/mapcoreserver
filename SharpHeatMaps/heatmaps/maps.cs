@@ -71,6 +71,29 @@ namespace SharpHeatMaps.heatmaps
             }
         }
 
+        public void createHeatMapSplodgeAccelerated(int x, int y, int radius = 20)
+        {
+            //Iterate over Y axis, negative RAD to + RAD
+            Parallel.For(-radius, radius, yy =>
+            {
+                //Iterate over X axis, negative RAD to + RAD
+                for (int xx = -radius; xx < radius; xx++)
+                {
+                    //Chopping the value to avoid edge build up
+                    if (x + xx < 1024 && y + yy < 1024 && x + xx > 0 && y + yy > 0)
+                    {
+                        //Add density to that pixel
+                        addToPixelDensity((x + xx).Clamp(0, 1023), (y + yy).Clamp(0, 1023),
+                            (
+                            (radius - xx.Abs()) *
+                            (radius - yy.Abs()) -
+                            radius
+                            ) * 2);
+                    }
+                }
+            }); //Parallel.For
+        }
+
         public int getPixelValue(int x, int y)
         {
             return pixelDensities[(width * (height - y - 1)) + x];

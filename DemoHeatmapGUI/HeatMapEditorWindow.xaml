@@ -43,8 +43,8 @@
 
                     <Expander Header="Heatmap Options" IsExpanded="True">
                         <StackPanel Orientation="Vertical">
-                            <CheckBox Content="Show Player Paths"/>
-                            <CheckBox Content="Shots fired"/>
+                            <CheckBox Content="Show Player Paths" x:Name="toggle_playerpaths"/>
+                            <CheckBox Content="Shots fired" x:Name="toggle_shotsfired"/>
                         </StackPanel>
                     </Expander>
 

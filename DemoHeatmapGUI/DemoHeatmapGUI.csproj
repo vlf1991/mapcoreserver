@@ -145,6 +145,10 @@
       <Project>{c3649d9e-3e3a-45d7-a76a-18d8b9ef94a2}</Project>
       <Name>DemoHeatmap</Name>
     </ProjectReference>
+    <ProjectReference Include="..\LogicalMathFunctions\LogicalMathFunctions.csproj">
+      <Project>{10efb548-d42c-4b5a-a28e-d1aabc24cea8}</Project>
+      <Name>LogicalMathFunctions</Name>
+    </ProjectReference>
     <ProjectReference Include="..\SharpHeatMaps\SharpHeatMaps.csproj">
       <Project>{966291f9-b1b8-4fb9-a0c6-3e29bdb82e48}</Project>
       <Name>SharpHeatMaps</Name>

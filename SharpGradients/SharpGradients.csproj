@@ -53,7 +53,16 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\LogicalImageEditing\LogicalImageEditing.csproj">
+      <Project>{755ebf3b-8f4f-474f-b756-ba597e9b636d}</Project>
+      <Name>LogicalImageEditing</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogicalMathFunctions\LogicalMathFunctions.csproj">
+      <Project>{10efb548-d42c-4b5a-a28e-d1aabc24cea8}</Project>
+      <Name>LogicalMathFunctions</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

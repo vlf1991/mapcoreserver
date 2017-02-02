@@ -28,11 +28,15 @@ namespace SharpGradients.color
             public int G;
             public int B;
 
-            public rgb(int r, int g, int b)
+            public int A;
+
+            public rgb(int r, int g, int b, int a = 255)
             {
                 R = r;
                 G = g;
                 B = b;
+
+                A = a;
             }
         }
 
@@ -56,16 +60,11 @@ namespace SharpGradients.color
             //SATURATION CALCULATIONS
             if(min == max)
             {
+                output.H = 0;
                 output.S = 0;
             }
             else
-            {
-                if (output.L < 0.5f)
-                    output.S = (max - min) / (max + min);
-                else
-                    output.S = (max - min) / (2.0f - max - min);
-
-            }
+                output.S = output.L < 0.5f ? (max - min) / (max + min) : (max - min) / (2.0f - max - min);
 
             //HUE CALCULATIONS
             if (r == max)
@@ -88,38 +87,41 @@ namespace SharpGradients.color
         {
             rgb output = new rgb();
 
-            if(source.S == 0) //The colour is a shade of grey
+            if (source.S == 0) //The colour is a shade of grey
             {
-                float val = source.S * 255;
+                float val = source.L * 255f;
                 output.R = (int)val;
                 output.G = (int)val;
                 output.B = (int)val;
             }
-            else //Its not a shade of grey
+            else //It has some saturation
             {
-                float temporary_1 = 0.0f;
-                if (source.L < 0.5f)
-                    temporary_1 = source.L * (1.0f + source.S);
-                else
-                    temporary_1 = source.L + source.S - source.L * source.S;
+                float temp2 = source.L < 0.5f ? source.L * (1.0f + source.S) : source.L + source.S - (source.L * source.S);
+                float temp1 = 2.0f * source.L - temp2;
 
-
-                float temporary_2 = 2 * source.L - temporary_1;
-
-                float pHue = source.H / 360.0f;
-
-
-                float RR = Math.Abs(pHue + 0.333f);
-                float GG = Math.Abs(pHue);
-                float BB = Math.Abs(pHue - 0.333f);
-
+                //Get all the color component
+                output.R = (int)Math.Round(convGetColorComponent(temp1, temp2, (source.H / 360f) + 1.0f / 3.0f) * 255.0f);
+                output.G = (int)Math.Round(convGetColorComponent(temp1, temp2, (source.H / 360f)) * 255.0f);
+                output.B = (int)Math.Round(convGetColorComponent(temp1, temp2, (source.H / 360f) - 1.0f / 3.0f) * 255.0f);
             }
-
-
-
-
-            //TODO: FINISH THIS
             return output;
+        }
+
+        private static float convGetColorComponent(float temp1, float temp2, float temp3)
+        {
+            if (temp3 < 0.0f)
+                temp3 += 1.0f;
+            else if (temp3 > 1.0f)
+                temp3 -= 1.0f;
+
+            if (temp3 < 1.0f / 6.0f)
+                return temp1 + (temp2 - temp1) * 6.0f * temp3;
+            else if (temp3 < 0.5f)
+                return temp2;
+            else if (temp3 < 2.0f / 3.0f)
+                return temp1 + ((temp2 - temp1) * ((2.0f / 3.0f) - temp3) * 6.0f);
+            else
+                return temp1;
         }
     }
 }

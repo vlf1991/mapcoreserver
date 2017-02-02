@@ -7,17 +7,66 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Runtime.InteropServices;
+using LogicalImageEditing.lowlevel;
+using SharpGradients.color;
+using LogicalMathFunctions;
 
 namespace SharpGradients
 {
-    class defined_gradient
+    public class defined_gradient
     {
-        
+        //Holds all the keys at their position in the gradient
+        private Dictionary<float, format.rgb> keys = new Dictionary<float, format.rgb>();
+
+        public format.rgb getColorAtPosition(float pos)
+        {
+            float lowPos = 0.0f;
+            float highPos = 0.0f;
+
+            //Look for high and low values around the key
+            foreach (float s in keys.Keys)
+            {
+                if (s < pos && s > lowPos) //Found low
+                    lowPos = s;
+                else if (s > pos && s < highPos) //Found high
+                    highPos = s;
+            }
+
+            format.hsl bottomColor = keys[lowPos].toHSL();
+            format.hsl topColor = keys[highPos].toHSL();
+
+            format.hsl newHSL = new format.hsl();
+            //Get percent of each one
+            // CUrs:
+            //
+            // BOTTOM COLOR         TOP COLOR
+            // H    S   L           H   S   L
+            // 10   0.5 0.5         20  0.1 1
+
+            float distance = highPos - lowPos;      //Get the distance going normally
+            float loopDistance = 360 - distance;    //Get the distance looping across directions
+
+            //Find out whether to loop backwards or forwards.
+            if (highPos + loopDistance - 360 != lowPos)//reverse it
+                loopDistance = -loopDistance;
+
+            if(distance < Math.Abs(loopDistance))
+            {
+
+            }
+            else
+            {
+                
+            }
+
+
+            return new format.rgb();
+        }
     }
 
     public class image_gradient
     {
-        imgLowLvl.imagebits gradientBits;
+        raw_image.imagebits gradientBits;
 
         /// <summary>
         /// Loads an image gradient from disk
@@ -26,12 +75,12 @@ namespace SharpGradients
         public image_gradient(string path)
         {
             Bitmap source = new Bitmap(path);
-            gradientBits = imgLowLvl.fastbits(source);
+            gradientBits = source.toImageBits();
         }
 
         public Bitmap applyToImage(Bitmap image)
         {
-            imgLowLvl.imagebits allbits = imgLowLvl.fastbits(image);
+            raw_image.imagebits allbits = image.toImageBits();
 
             int gradLen = gradientBits.a.Length;
 
@@ -43,94 +92,7 @@ namespace SharpGradients
                 allbits.b[i] = gradientBits.b[average.remap(0, 255, 0, gradLen)];
             }
 
-            return imgLowLvl.imageBitsToBitMap(allbits, image.Width, image.Height);
-        }
-    }
-
-    public static class imgLowLvl
-    {
-        public struct imagebits
-        {
-            public byte[] r;
-            public byte[] g;
-            public byte[] b;
-            public byte[] a;
-        }
-
-        /// <summary>
-        /// Converts back to a bitmap image ready for use again
-        /// </summary>
-        /// <returns>The channels all in bitmap form</returns>
-        public static Bitmap imageBitsToBitMap(imagebits img, int x, int y)
-        {
-            var b = new Bitmap(x, y, PixelFormat.Format32bppArgb);
-
-            var BoundsRect = new Rectangle(0, 0, x, y);
-            BitmapData bmpData = b.LockBits(BoundsRect,
-                                            ImageLockMode.WriteOnly,
-                                            b.PixelFormat);
-
-            IntPtr ptr = bmpData.Scan0;
-
-
-            byte[] orderedbits = new byte[img.r.Length * 4];
-
-            for (int i = 0; i < img.r.Length; i++)
-            {
-                orderedbits[i * 4] = img.r[i];
-                orderedbits[i * 4 + 1] = img.g[i];
-                orderedbits[i * 4 + 2] = img.b[i];
-                orderedbits[i * 4 + 3] = img.a[i];
-            }
-
-            Marshal.Copy(orderedbits, 0, ptr, img.r.Length * 4);
-            b.UnlockBits(bmpData);
-            return b;
-        }
-
-        public static imagebits fastbits(Bitmap source)
-        {
-            // Lock the bitmap's bits.  
-            Rectangle rect = new Rectangle(0, 0, source.Width, source.Height);
-            BitmapData bmpData = source.LockBits(rect, ImageLockMode.ReadWrite, PixelFormat.Format32bppArgb);
-
-            // Get the address of the first line.
-            IntPtr ptr = bmpData.Scan0;
-
-            // Declare an array to hold the bytes of the bitmap.
-            int bytes = bmpData.Stride * source.Height;
-            byte[] rgbaValues = new byte[bytes];
-            byte[] r = new byte[bytes / 4];
-            byte[] g = new byte[bytes / 4];
-            byte[] b = new byte[bytes / 4];
-            byte[] a = new byte[bytes / 4];
-
-            // Copy the RGB values into the array.
-            Marshal.Copy(ptr, rgbaValues, 0, bytes);
-
-            int count = 0;
-            int stride = bmpData.Stride;
-
-            for (int column = 0; column < bmpData.Height; column++)
-            {
-                for (int row = 0; row < bmpData.Width; row++)
-                {
-                    b[count] = (byte)(rgbaValues[(column * stride) + (row * 4)]);
-                    g[count] = (byte)(rgbaValues[(column * stride) + (row * 4) + 1]);
-                    r[count] = (byte)(rgbaValues[(column * stride) + (row * 4) + 2]);
-                    a[count++] = (byte)(rgbaValues[(column * stride) + (row * 4) + 3]);
-                }
-            }
-
-            imagebits allbits = new imagebits();
-            allbits.r = r;
-            allbits.g = g;
-            allbits.b = b;
-            allbits.a = a;
-
-            source.UnlockBits(bmpData);
-
-            return allbits;
+            return allbits.toBitMap();
         }
     }
 }

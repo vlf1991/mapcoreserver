@@ -25,6 +25,20 @@ namespace LogicalMathFunctions
             return val.remap(min1, max1, min2, max2).Clamp(min2, max2);
         }
 
+
+
+        //FLOAT CLONES
+        public static float remapF(this float val, float min1, float max1, float min2, float max2)
+        {
+            return min1 + (val - min1) * (max2 - min2) / (max1 - min1);
+        }
+
+        public static float remapClampedF(this float val, float min1, float max1, float min2, float max2)
+        {
+            return val.remapF(min1, max1, min2, max2).Clamp(min2, max2);
+        }
+
+
         public static int Abs(this int val)
         {
             return Math.Abs(val);

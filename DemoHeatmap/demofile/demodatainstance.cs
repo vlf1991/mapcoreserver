@@ -388,7 +388,7 @@ namespace DemoHeatmap.demofile
                             if (player.IsAlive)
                             {
                                 //Add the players position
-                                testinstance.players[player.EntityID].rounds[currentRound].positions.Add(new vector3(player.Position.X, player.Position.Y, player.Position.Z));
+                                testinstance.players[player.EntityID].rounds.Last().positions.Add(new vector3(player.Position.X, player.Position.Y, player.Position.Z));
                             }
                         }
 
