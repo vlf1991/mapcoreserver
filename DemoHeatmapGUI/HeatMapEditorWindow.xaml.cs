@@ -134,6 +134,7 @@ namespace DemoHeatmapGUI
                     {
                         if (enabledSteamIDS[plyr.steamID])
                         {
+                        
                             foreach (p_Round rnd in plyr.rounds)
                             {
                                 using (var graphics = Graphics.FromImage(outputImage))
@@ -144,12 +145,17 @@ namespace DemoHeatmapGUI
                                 else
                                     pen = Tpen;
 
-                                for (int i = 2000; i < rnd.positions.Count() - 2000; i++)
+                                for (int i = 0; i < rnd.positions.Count(); i++)
                                 {
                                     vector2 pa = transforms.worldToScreenSpace(rnd.positions[i], cam);
                                     vector2 pb = transforms.worldToScreenSpace(rnd.positions[(i - 1).Clamp(0, rnd.positions.Count() - 1)], cam);
 
-                                    graphics.DrawLine(pen, pa.x, pa.y.remapF(1024, 0, 0, 1024) - 1024, pb.x, pb.y.remapF(1024, 0, 0, 1024) - 1024);
+                                    if (Math.Abs(pa.x - pb.x) + Math.Abs(pa.y - pb.y) < 128)
+                                    {
+
+                                        graphics.DrawLine(pen, pa.x, pa.y.remapF(1024, 0, 0, 1024) - 1024, pb.x, pb.y.remapF(1024, 0, 0, 1024) - 1024);
+
+                                    }
                                 }
                             }
                         }

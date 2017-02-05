@@ -26,6 +26,7 @@
                         <!--ADD DEMOS HEADER-->
                         <StackPanel Orientation="Horizontal">
                             <Button>Browse</Button>
+                            <Button Click="btn_click_refresh">Refresh</Button>
                             <Button>Load Folder</Button>
                             <Label Foreground="#FF383838">
                                 Or drag a .dem file here!

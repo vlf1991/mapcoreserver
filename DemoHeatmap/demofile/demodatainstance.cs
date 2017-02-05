@@ -310,80 +310,79 @@ namespace DemoHeatmap.demofile
             testinstance.info.ctScore = parser.CTScore;
             testinstance.info.tScore = parser.TScore;
 
-            #region event subscription
-            //Subscribe to events here
-            parser.WeaponFired += (object o, WeaponFiredEventArgs e) =>
+            bg.DoWork += (sender, ee) =>
             {
-                //Add the weapon fired position to that players most recent round
-                testinstance.players[e.Shooter.EntityID].rounds.Last().shotsFired.Add(new vector3(
-                                                                                    e.Shooter.Position.X,
-                                                                                    e.Shooter.Position.Y,
-                                                                                    e.Shooter.Position.Z));
-            };
-
-            //Add a new round to each player on each team, on round start
-            parser.RoundStart += (object o, RoundStartedEventArgs e) =>
-            {
-                
-                //foreach (p_Team recTeam in teams)
-                //foreach (p_Player player in testinstance.players.Values.ToList())
-               //     player.rounds.Add(new p_Round());
-
-                //Loop over each player on round start and assign the team to it
-                foreach (DemoInfo.Player player in parser.PlayingParticipants)
+                //Subscribe to events here
+                parser.WeaponFired += (object o, WeaponFiredEventArgs e) =>
                 {
-                    if (player.IsAlive)
-                    {
-                        testinstance.players[player.EntityID].rounds.Add(new p_Round());
+                    //Add the weapon fired position to that players most recent round
+                    testinstance.players[e.Shooter.EntityID].rounds.Last().shotsFired.Add(new vector3(
+                                                                                        e.Shooter.Position.X,
+                                                                                        e.Shooter.Position.Y,
+                                                                                        e.Shooter.Position.Z));
+                };
 
-                        p_Team_Identifier tIdentify = p_Team_Identifier.counterterrorist;
-                        if (player.Team == Team.Terrorist)
-                        {
-                            tIdentify = p_Team_Identifier.terrorist;
-                            
-                        }
-
-                        testinstance.players[player.EntityID].rounds.Last().teamPlayedOnRound = tIdentify;
-                    }
-                }
-            };
-
-            //Log all player deaths
-            parser.PlayerKilled += (object o, PlayerKilledEventArgs e) =>
-            {
-                //Do a team check
-                int team = 0;
-                if (e.Victim.Team == Team.Terrorist)
-                    team = 1;
-
-                //Add the player death
-                testinstance.players[e.Victim.EntityID].deathPositions.Add(new vector3(
-                                                                        e.Victim.Position.X,
-                                                                        e.Victim.Position.Y,
-                                                                        e.Victim.Position.Z));
-            };
-            #endregion
-
-            bg.DoWork += (sender, e) =>
-            {
-
-                try
+                //Add a new round to each player on each team, on round start
+                parser.RoundStart += (object o, RoundStartedEventArgs e) =>
                 {
-                    int uProg = 0;
-                    int currentRound = 0;
 
-                    //Loop through ticks here
-                    while (parser.ParseNextTick() != false)
+                    //foreach (p_Team recTeam in teams)
+                    //foreach (p_Player player in testinstance.players.Values.ToList())
+                    //     player.rounds.Add(new p_Round());
+
+                    //Loop over each player on round start and assign the team to it
+                    foreach (DemoInfo.Player player in parser.PlayingParticipants)
                     {
-
-                        foreach (DemoInfo.Player player in parser.PlayingParticipants)
+                        if (player.IsAlive)
                         {
-                            //Check if the player exists on the teams
-                            if (!testinstance.players.ContainsKey(player.EntityID))
+                            testinstance.players[player.EntityID].rounds.Add(new p_Round());
+
+                            p_Team_Identifier tIdentify = p_Team_Identifier.counterterrorist;
+                            if (player.Team == Team.Terrorist)
                             {
-                                testinstance.players.Add(player.EntityID, new p_Player(player.Name, player.SteamID));
+                                tIdentify = p_Team_Identifier.terrorist;
+
                             }
 
+                            testinstance.players[player.EntityID].rounds.Last().teamPlayedOnRound = tIdentify;
+                        }
+                    }
+                };
+
+                //Log all player deaths
+                parser.PlayerKilled += (object o, PlayerKilledEventArgs e) =>
+                {
+                    //Do a team check
+                    int team = 0;
+                    if (e.Victim.Team == Team.Terrorist)
+                        team = 1;
+
+                    //Add the player death
+                    testinstance.players[e.Victim.EntityID].deathPositions.Add(new vector3(
+                                                                            e.Victim.Position.X,
+                                                                            e.Victim.Position.Y,
+                                                                            e.Victim.Position.Z));
+                };
+
+                int uProg = 0;
+                int tickSwitch = 0;
+
+                //Loop through ticks here
+                while (parser.ParseNextTick() != false)
+                {
+                    foreach (DemoInfo.Player player in parser.PlayingParticipants)
+                    {
+                        //Check if the player exists on the teams
+                        if (!testinstance.players.ContainsKey(player.EntityID))
+                        {
+                            testinstance.players.Add(player.EntityID, new p_Player(player.Name, player.SteamID));
+                        }
+                    }
+
+                    if (tickSwitch > 5)
+                    {
+                        foreach (DemoInfo.Player player in parser.PlayingParticipants)
+                        {
                             //Check if the player is alive
                             if (player.IsAlive)
                             {
@@ -392,26 +391,24 @@ namespace DemoHeatmap.demofile
                             }
                         }
 
-                        //Report its progress
-                        //updateProgress?.Invoke(parser.ParsingProgess);
-                        uProg++;
-                        if (uProg > 1000)
-                        {
-                            bg.ReportProgress(Convert.ToInt32(parser.ParsingProgess * 100));
-                            uProg = 0;
-                        }
-
+                        tickSwitch = 0;
                     }
 
+                    tickSwitch++;
+
+                    //Report its progress
+                    //updateProgress?.Invoke(parser.ParsingProgess);
+                    uProg++;
+                    if (uProg > 1000)
+                    {
+                        bg.ReportProgress(Convert.ToInt32(parser.ParsingProgess * 100));
+                        uProg = 0;
+                    }
 
                 }
-                catch
-                {
-                    //TODO: Work out the error types
-                    Console.WriteLine("Error while parsing, usual...");
-                }
 
-                e.Result = testinstance;
+
+                ee.Result = testinstance;
             };
             bg.RunWorkerCompleted += (sender, e) =>
             {

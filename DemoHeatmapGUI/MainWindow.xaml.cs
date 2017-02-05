@@ -67,5 +67,11 @@ namespace DemoHeatmapGUI
 
             }
         }
+
+        private void btn_click_refresh(object sender, RoutedEventArgs e)
+        {
+            target_demofiles.Children.Clear();
+            doLoad();
+        }
     }
 }
