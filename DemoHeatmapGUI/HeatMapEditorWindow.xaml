@@ -41,13 +41,17 @@
                         </StackPanel>
                     </Expander>
 
+                    <Rectangle Height="40"/>
+
                     <Expander Header="Heatmap Options" IsExpanded="True">
                         <StackPanel Orientation="Vertical">
                             <CheckBox Content="Show Player Paths" x:Name="toggle_playerpaths"/>
                             <CheckBox Content="Shots fired" x:Name="toggle_shotsfired"/>
                         </StackPanel>
                     </Expander>
-
+                    
+                    <Rectangle Height="40"/>
+                    
                     <Expander Header="Gradient Options" IsExpanded="True">
                         <StackPanel Orientation="Vertical">
                             <ComboBox>

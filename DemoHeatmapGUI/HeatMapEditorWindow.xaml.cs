@@ -150,6 +150,7 @@ namespace DemoHeatmapGUI
                                     vector2 pa = transforms.worldToScreenSpace(rnd.positions[i], cam);
                                     vector2 pb = transforms.worldToScreenSpace(rnd.positions[(i - 1).Clamp(0, rnd.positions.Count() - 1)], cam);
 
+                                    //Fucking weird shit, I dont know why its recording big jumps like this
                                     if (Math.Abs(pa.x - pb.x) + Math.Abs(pa.y - pb.y) < 128)
                                     {
 

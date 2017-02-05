@@ -31,6 +31,8 @@
                 <Button x:Name="btn_fullscreen" Content="[  ]" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Click="image_full" Background="#FFDDDDDD" FontSize="18.667" FontWeight="Bold"/>
                 <Rectangle Width="10"/>
                 <Button x:Name="btn_zoomin" Content="+" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="40" Height="40" Click="image_zoomin" Background="#FFDDDDDD" FontSize="18.667" FontWeight="Bold"/>
+                <Rectangle Width="50"/>
+                <Button x:Name="btn_saveimg" Content="V" HorizontalAlignment="Left" VerticalAlignment="Top" Width="40" Height="40" Click="btn_img_save" Background="#FFDDDDDD" FontSize="18.667" FontWeight="Bold"/>
             </StackPanel>
         </Grid>
     </Grid>

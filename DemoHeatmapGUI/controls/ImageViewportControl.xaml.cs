@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using DemoHeatmapGUI.imaging;
+using Microsoft.Win32;
 
 namespace DemoHeatmapGUI.controls
 {
@@ -26,6 +27,8 @@ namespace DemoHeatmapGUI.controls
         private Point start;
 
         public string test;
+
+        public System.Drawing.Bitmap sourceImage;
 
         public ImageViewportControl()
         {
@@ -126,7 +129,19 @@ namespace DemoHeatmapGUI.controls
         //Sets the image to a bitmap
         public void set_image(System.Drawing.Bitmap display)
         {
+            sourceImage = display;
             disp.Source = display.toBitMapImage();
+        }
+
+        //Save the image
+        public void btn_img_save(object sender, EventArgs e)
+        {
+            SaveFileDialog savefile = new SaveFileDialog();
+            savefile.Filter = "JPEG (*.jpg)|*.jpg|PNG (*.png)|*.png";
+            if (savefile.ShowDialog() == true)
+            {
+                sourceImage.Save(savefile.FileName);
+            }
         }
     }
 }
