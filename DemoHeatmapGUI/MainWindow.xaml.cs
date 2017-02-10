@@ -11,9 +11,10 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
-using System.Windows.Shapes;
+
 using DemoHeatmap.demofile;
 using DemoHeatmapGUI.controls;
+using System.IO;
 
 namespace DemoHeatmapGUI
 {
@@ -43,7 +44,7 @@ namespace DemoHeatmapGUI
                 if(status.isDownloaded)
                 {
                     //Process demo file config window
-                    ProcessDemoDialogue procDemo = new ProcessDemoDialogue(status);
+                    ProcessDemoDialogue procDemo = new ProcessDemoDialogue(status, this);
                     procDemo.Show();
                 }
                 else
@@ -52,13 +53,39 @@ namespace DemoHeatmapGUI
                     insMap.Show();
                 }
             }
+
+            doLoad();
         }
 
-        private void doLoad()
+        public void doLoad()
         {
+            List<string> dirsToMake = new List<string>();
+            dirsToMake.Add("demos");
+            dirsToMake.Add("maps");
+            dirsToMake.Add("maps/workshop");
+            dirsToMake.Add("bin");
+
+            foreach (string dir in dirsToMake)
+            {
+                if (!Directory.Exists(dir))
+                    Directory.CreateDirectory(dir);
+            }
+
+            foreach (string dir in Directory.GetFiles("valve"))
+            {
+                if(!File.Exists(Path.GetDirectoryName(dir) + "/../" + Path.GetFileName(dir)))
+                    File.Copy(dir, Path.GetDirectoryName(dir) + "/../" + Path.GetFileName(dir));
+            }
+            foreach(string dir in Directory.GetFiles("valve/bin"))
+                if (!File.Exists(Path.GetDirectoryName(dir) + "/../../bin/" + Path.GetFileName(dir)))  
+                    File.Copy(dir, Path.GetDirectoryName(dir) + "/../../bin/" + Path.GetFileName(dir));
+
+
             List<demostat> stats = demoreading.getSavedDemos();
 
-            foreach(demostat stat in stats)
+            target_demofiles.Children.Clear();
+
+            foreach (demostat stat in stats)
             {
                 LoadedDemoControl disp = new LoadedDemoControl(stat, this);
                 
@@ -70,7 +97,6 @@ namespace DemoHeatmapGUI
 
         private void btn_click_refresh(object sender, RoutedEventArgs e)
         {
-            target_demofiles.Children.Clear();
             doLoad();
         }
     }

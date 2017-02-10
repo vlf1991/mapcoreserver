@@ -51,7 +51,7 @@ namespace DemoHeatmapGUI.controls
             {
                 HeatMapEditorWindow editor = new HeatMapEditorWindow(serialwrite.Binary.ReadFromBinaryFile<demodatainstance>(dispStat.filepath));
                 editor.Show();
-                main.IsEnabled = false;
+                //main.IsEnabled = false;
             };
         }
     }

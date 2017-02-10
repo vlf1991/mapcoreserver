@@ -199,6 +199,7 @@ namespace DemoHeatmap.demofile
     */
 
         //Initialisation step, should fire when parsing the demo for first time
+        [Obsolete("bad")]
         public demodatainstance(DemoParser parser, Action<float> updateProgress = null) //Report progress
         {
             if (parser == null)

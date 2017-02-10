@@ -126,8 +126,8 @@ namespace DemoHeatmapGUI
             //If draw player paths is enabled
             if (toggle_playerpaths.IsChecked.Value)
             {
-                Pen CTpen = new Pen(Color.FromArgb(16, 242, 139, 4), 1);
-                Pen Tpen = new Pen(Color.FromArgb(16, 50, 178, 201), 1);
+                Pen CTpen = new Pen(Color.FromArgb(32, 242, 139, 4), 1);
+                Pen Tpen = new Pen(Color.FromArgb(32, 50, 178, 201), 1);
 
 
                     foreach (p_Player plyr in refInstance.players.Values.ToList())

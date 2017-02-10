@@ -22,10 +22,12 @@ namespace DemoHeatmapGUI
     public partial class ProcessDemoDialogue : Window
     {
         demoreading.mapstatus stat;
+        MainWindow sentfrom;
 
-        public ProcessDemoDialogue(demoreading.mapstatus status)
+        public ProcessDemoDialogue(demoreading.mapstatus status, MainWindow handle)
         {
             InitializeComponent();
+            sentfrom = handle;
 
             stat = status;
 
@@ -46,6 +48,8 @@ namespace DemoHeatmapGUI
         {
             demoreading.saveDemo(instance, stat);
             MessageBox.Show("Done!");
+
+            sentfrom.doLoad();
         }
     }
 }

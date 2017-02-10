@@ -94,6 +94,7 @@ namespace DemoHeatmap.demofile
         public static List<demostat> getSavedDemos()
         {
             List<demostat> all = new List<demostat>();
+
             string[] demofiles = Directory.GetFiles("demos", "*.replayts");
 
             foreach(string filename in demofiles)
