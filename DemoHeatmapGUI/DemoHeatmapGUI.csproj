@@ -84,6 +84,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="version.cs" />
     <Page Include="controls\ImageViewportControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -177,6 +178,10 @@
     <ProjectReference Include="..\SharpHeatMaps\SharpHeatMaps.csproj">
       <Project>{966291f9-b1b8-4fb9-a0c6-3e29bdb82e48}</Project>
       <Name>SharpHeatMaps</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\SuperSimpleHTTP\SuperSimpleHTTP.csproj">
+      <Project>{d04e0808-8419-41bf-8ac1-73741b6e6244}</Project>
+      <Name>SuperSimpleHTTP</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

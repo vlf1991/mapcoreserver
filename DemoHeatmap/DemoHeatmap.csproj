@@ -77,6 +77,7 @@
     <Compile Include="imaging.cs" />
     <Compile Include="IO\serialwrite.cs" />
     <Compile Include="math\math.cs" />
+    <Compile Include="setup.cs" />
     <Compile Include="steamlib.cs" />
     <Compile Include="Debug.cs" />
     <None Include="grayimage.bak" />

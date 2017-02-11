@@ -42,8 +42,6 @@ namespace SuperSimpleHTTP.requests
 
 
 
-
-
         private static async Task<string> do_GET(string url)
         {
             HttpClient client = new HttpClient();
@@ -60,6 +58,21 @@ namespace SuperSimpleHTTP.requests
         public static string GET(string url)
         {
             return do_GET(url).Result;
+        }
+
+
+        /// <summary>
+        /// Downloads a string from a url
+        /// </summary>
+        /// <param name="url"></param>
+        /// <returns></returns>
+        public static string downloadString(string url)
+        {
+            string r = null;
+            using (var wc = new WebClient()) //Downlaod the string
+                r = wc.DownloadString(url);
+
+            return r; //Return it
         }
     }
 }

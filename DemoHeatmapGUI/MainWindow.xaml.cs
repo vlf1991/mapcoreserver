@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
+using DemoHeatmap;
 using DemoHeatmap.demofile;
 using DemoHeatmapGUI.controls;
 using System.IO;
@@ -27,8 +28,31 @@ namespace DemoHeatmapGUI
         {
             InitializeComponent();
 
+            //Run {CHECK} first time setup before running anything else
+            if (!File.Exists("demos"))
+            {
+                setup.runFirstTimeSetup();
+            }
+
+            //Check for updates before running any other code
+            checkForUpdates();
+
             //Load demos onto the stack panel
             doLoad();
+        }
+
+        //Update checking method
+        private void checkForUpdates()
+        {
+            if(!version.isLatestVersion())
+            {
+                MessageBoxResult result = MessageBox.Show("There is an update availible!\n\nVersion " + version.getLatestVersion() + " has been released, would you like to download it?", "Update availible", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+                if(result == MessageBoxResult.Yes)
+                {
+                    System.Diagnostics.Process.Start(version.getDownloadURL());
+                    Environment.Exit(0);
+                }
+            }
         }
 
         private void DemoPanel_Drop(object sender, DragEventArgs e)
@@ -59,28 +83,6 @@ namespace DemoHeatmapGUI
 
         public void doLoad()
         {
-            List<string> dirsToMake = new List<string>();
-            dirsToMake.Add("demos");
-            dirsToMake.Add("maps");
-            dirsToMake.Add("maps/workshop");
-            dirsToMake.Add("bin");
-
-            foreach (string dir in dirsToMake)
-            {
-                if (!Directory.Exists(dir))
-                    Directory.CreateDirectory(dir);
-            }
-
-            foreach (string dir in Directory.GetFiles("valve"))
-            {
-                if(!File.Exists(Path.GetDirectoryName(dir) + "/../" + Path.GetFileName(dir)))
-                    File.Copy(dir, Path.GetDirectoryName(dir) + "/../" + Path.GetFileName(dir));
-            }
-            foreach(string dir in Directory.GetFiles("valve/bin"))
-                if (!File.Exists(Path.GetDirectoryName(dir) + "/../../bin/" + Path.GetFileName(dir)))  
-                    File.Copy(dir, Path.GetDirectoryName(dir) + "/../../bin/" + Path.GetFileName(dir));
-
-
             List<demostat> stats = demoreading.getSavedDemos();
 
             target_demofiles.Children.Clear();
