@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="DemoHeatmapGUI.controls.SavedMapControl"
+﻿<UserControl x:Class="DemoHeatmapGUI.controls.LoadedDemoControl"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -26,7 +26,7 @@
                     <Label x:Name="target_server_name">target__servername</Label>
                     <Label x:Name="target_map_name">target__mapname</Label>
                 </StackPanel>
-                
+
                 <StackPanel Orientation="Horizontal" Grid.Column="2">
                     <Label x:Name="target_T_name">target__T__name</Label>
                     <Label x:Name="target_T_score">XX</Label>

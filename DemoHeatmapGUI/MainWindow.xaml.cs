@@ -41,6 +41,9 @@ namespace DemoHeatmapGUI
 
             //Load demos onto the stack panel
             doLoadDemos();
+
+            //Load maps
+            doLoadMaps();
         }
 
         //Update checking method
@@ -91,7 +94,7 @@ namespace DemoHeatmapGUI
 
             foreach (demostat stat in stats)
             {
-                SavedMapControl disp = new SavedMapControl(stat, this);
+                LoadedDemoControl disp = new LoadedDemoControl(stat, this);
                 
                 target_demofiles.Children.Add(disp);
             }
@@ -99,13 +102,13 @@ namespace DemoHeatmapGUI
 
         public void doLoadMaps()
         {
-            List<mapData> maps = bspinfo.getSavedMaps(); //Retrieve all the maps on disk
+            Dictionary<string, mapData> maps = bspinfo.getSavedMaps(); //Retrieve all the maps on disk
             target_mapfiles.Children.Clear();
 
-            foreach (mapData dat in maps)
+            foreach (string mapPath in maps.Keys)
             {
-                //SavedMapControl mapControl = new SavedMapControl(dat);
-                //target_mapfiles.Children.Add(mapControl);
+                SavedMapControl mapControl = new SavedMapControl(maps[mapPath], Path.GetFileNameWithoutExtension(mapPath));
+                target_mapfiles.Children.Add(mapControl);
             }
         }
 

@@ -108,6 +108,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="controls\LoadedDemoControl.xaml.cs">
+      <DependentUpon>LoadedDemoControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="controls\SavedMapControl.xaml.cs">
+      <DependentUpon>SavedMapControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="InstallMapOfflineDialogue.xaml.cs">
       <DependentUpon>InstallMapOfflineDialogue.xaml</DependentUpon>
     </Compile>
@@ -117,6 +123,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="controls\LoadedDemoControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="controls\SavedMapControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -142,9 +152,6 @@
     </Compile>
     <Compile Include="controls\ImageViewportControl.xaml.cs">
       <DependentUpon>ImageViewportControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="controls\LoadedDemoControl.xaml.cs">
-      <DependentUpon>LoadedDemoControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="HeatMapEditorWindow.xaml.cs">
       <DependentUpon>HeatMapEditorWindow.xaml</DependentUpon>

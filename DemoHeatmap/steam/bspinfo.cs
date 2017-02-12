@@ -107,9 +107,9 @@ namespace DemoHeatmap.steam
             }
         }
 
-        public static List<mapData> getSavedMaps()
+        public static Dictionary<string, mapData> getSavedMaps()
         {
-            List<mapData> all = new List<mapData>(); //Holds all the map instances
+            Dictionary<string, mapData> all = new Dictionary<string, mapData>(); //Holds all the map instances
 
             //The list of directories to check when looking for maps
             List<string> checkDirs = new List<string>();
@@ -123,7 +123,7 @@ namespace DemoHeatmap.steam
                 foreach (string mapfile in Directory.GetFiles(check, "*.maprad"))
                 {
                     mapData instance = serialwrite.Binary.ReadFromBinaryFile<mapData>(mapfile);
-                    all.Add(instance);
+                    all.Add(mapfile, instance);
                 }
             }
 
