@@ -16,8 +16,12 @@ namespace DemoHeatmap.steam
         public float scale;
         public string matpath;
 
-        public Radar(string filepath)
+        public Radar(string filepath = "")
         {
+            //Quick switch to make sure we dont generate nothing
+            if (filepath == "")
+                return;
+
             //Open a stream of the radar txt
             StreamReader s = new StreamReader(filepath);
 

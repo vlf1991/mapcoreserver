@@ -111,6 +111,7 @@ namespace LogicalImageEditing.lowlevel
             return fastbits(source);
         }
 
+        [Obsolete("Use new method in the 'conversions' namespace")]
         public static BitmapImage toBitMapImage(this Bitmap src)
         {
             MemoryStream ms = new MemoryStream();

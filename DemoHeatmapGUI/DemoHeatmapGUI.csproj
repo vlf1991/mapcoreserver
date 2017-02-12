@@ -78,12 +78,39 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="Xceed.Wpf.AvalonDock, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Aero, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Aero.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.Metro, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.AvalonDock.Themes.VS2010, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.AvalonDock.Themes.VS2010.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.DataGrid, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.DataGrid.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Xceed.Wpf.Toolkit, Version=3.0.0.0, Culture=neutral, PublicKeyToken=3e4669d2f30244f4, processorArchitecture=MSIL">
+      <HintPath>..\packages\Extended.Wpf.Toolkit.3.0\lib\net40\Xceed.Wpf.Toolkit.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InstallMapOfflineDialogue.xaml.cs">
+      <DependentUpon>InstallMapOfflineDialogue.xaml</DependentUpon>
+    </Compile>
     <Compile Include="version.cs" />
     <Page Include="controls\ImageViewportControl.xaml">
       <SubType>Designer</SubType>
@@ -98,6 +125,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="InstallMapDialogue.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="InstallMapOfflineDialogue.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -167,9 +198,17 @@
     <Resource Include="images\logo_target.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DDSReader\DDSReader.csproj">
+      <Project>{e8e2e010-da59-4a99-8331-b986b84c0fd2}</Project>
+      <Name>DDSReader</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DemoHeatmap\DemoHeatmap.csproj">
       <Project>{c3649d9e-3e3a-45d7-a76a-18d8b9ef94a2}</Project>
       <Name>DemoHeatmap</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogicalImageEditing\LogicalImageEditing.csproj">
+      <Project>{755ebf3b-8f4f-474f-b756-ba597e9b636d}</Project>
+      <Name>LogicalImageEditing</Name>
     </ProjectReference>
     <ProjectReference Include="..\LogicalMathFunctions\LogicalMathFunctions.csproj">
       <Project>{10efb548-d42c-4b5a-a28e-d1aabc24cea8}</Project>

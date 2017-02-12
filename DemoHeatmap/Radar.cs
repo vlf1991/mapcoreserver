@@ -7,6 +7,7 @@ using System.IO;
 
 namespace DemoHeatmap
 {
+    [Obsolete("New version created")]
     class Radar
     {
         public int pos_x;
@@ -14,8 +15,12 @@ namespace DemoHeatmap
         public float scale;
         public string matpath;
 
-        public Radar(string filepath)
+        public Radar(string filepath = "")
         {
+            //Dont do anything if we just want a blank radar
+            if (filepath == "")
+                return;
+
             StreamReader s = new StreamReader(filepath);
 
             string line;

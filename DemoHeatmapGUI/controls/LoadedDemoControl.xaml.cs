@@ -53,6 +53,9 @@ namespace DemoHeatmapGUI.controls
                 editor.Show();
                 //main.IsEnabled = false;
             };
+
+            //Add a context menu
+            
         }
     }
 }

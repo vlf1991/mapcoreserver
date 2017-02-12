@@ -12,7 +12,7 @@ using ImageProcessor;
 
 namespace DemoHeatmap.demofile
 {
-    class mapdata
+    public class mapdata
     {
         public Bitmap radarImage;
         public Radar radarDetails;
@@ -94,15 +94,19 @@ namespace DemoHeatmap.demofile
     }
 
     [Serializable]
-    class Radar
+    public class Radar
     {
         public int pos_x;
         public int pos_y;
         public float scale;
         public string matpath;
 
-        public Radar(string filepath)
+        public Radar(string filepath = "")
         {
+            //Return if we just want a blank radar
+            if (filepath == "")
+                return;
+
             StreamReader s = new StreamReader(filepath);
 
             string line;

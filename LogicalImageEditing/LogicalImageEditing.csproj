@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
+    <Compile Include="conversions\standard.cs" />
     <Compile Include="filters\layerstyles.cs" />
     <Compile Include="lowlevel\raw_image.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

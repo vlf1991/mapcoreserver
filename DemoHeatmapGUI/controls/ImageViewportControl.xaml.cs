@@ -137,7 +137,7 @@ namespace DemoHeatmapGUI.controls
         public void btn_img_save(object sender, EventArgs e)
         {
             SaveFileDialog savefile = new SaveFileDialog();
-            savefile.Filter = "JPEG (*.jpg)|*.jpg|PNG (*.png)|*.png";
+            savefile.Filter = "PNG (*.png)|*.png|JPEG (*.jpg)|*.jpg";
             if (savefile.ShowDialog() == true)
             {
                 sourceImage.Save(savefile.FileName);

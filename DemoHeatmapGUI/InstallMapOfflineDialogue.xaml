@@ -1,0 +1,48 @@
+﻿<Window x:Class="DemoHeatmapGUI.InstallMapOfflineDialogue"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:DemoHeatmapGUI"
+        xmlns:xctk="clr-namespace:Xceed.Wpf.Toolkit;assembly=Xceed.Wpf.Toolkit"
+        mc:Ignorable="d"
+        Title="InstallMapOfflineDialogue" Height="500" Width="300">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="25"/>
+            <RowDefinition Height="125"/>
+            <RowDefinition Height="25"/>
+        </Grid.RowDefinitions>
+        <Image x:Name="target_displayimage"/>
+
+        <DockPanel Grid.Row="1">
+            <Label Content="mapname:"/>
+            <TextBox x:Name="input_mapname"/>
+        </DockPanel>
+
+        <GroupBox Header="Radar Settings" Grid.Row="2">
+            <StackPanel>
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Offset X"/>
+                    <xctk:IntegerUpDown Value="0" Width="80" x:Name="input_offset_x"/>
+                    <Label Content="Offset Y"/>
+                    <xctk:IntegerUpDown Value="0" Width="80" x:Name="input_offset_y"/>
+                </StackPanel>
+
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Radar Scale"/>
+                    <xctk:DecimalUpDown Value="0" Width="100" x:Name="input_radar_scale"/>
+                </StackPanel>
+                
+                <Rectangle Height="10"/>
+                
+                <Button Content="Select Radar Image" Click="btn_select_radar_image"/>
+                <Label x:Name="target_selected_radar_filename" Height="27" Content="no image selected"/>
+            </StackPanel>
+            
+        </GroupBox>
+
+        <Button Content="Save!" Click="btn_save_map" Grid.Row="3"/>
+    </Grid>
+</Window>

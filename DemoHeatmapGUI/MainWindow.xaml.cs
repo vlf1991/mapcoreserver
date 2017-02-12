@@ -12,10 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 
+using DemoHeatmap.IO;
 using DemoHeatmap;
 using DemoHeatmap.demofile;
 using DemoHeatmapGUI.controls;
 using System.IO;
+using DemoHeatmap.steam;
 
 namespace DemoHeatmapGUI
 {
@@ -27,6 +29,12 @@ namespace DemoHeatmapGUI
         public MainWindow()
         {
             InitializeComponent();
+
+            InstallMapOfflineDialogue testDiag = new InstallMapOfflineDialogue(new mapData(), "workshop/503714165de_nausia");
+
+            testDiag.Show();
+
+            return;
 
             //Run {CHECK} first time setup before running anything else
             if (!File.Exists("demos"))
