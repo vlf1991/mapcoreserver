@@ -63,8 +63,8 @@ namespace DemoHeatmap.steam
                 using (var zip = ZipFile.OpenRead(sourceFolder + "/extracted.zip"))
                 {
                     foreach (var entry in zip.Entries.ToList())
-                    {
-                        if (entry.FullName.ToLower().Contains("overviews"))
+                    {                                                       //Uncommon error fix where path would contain drive letter
+                        if (entry.FullName.ToLower().Contains("overviews") && !entry.FullName.Contains(":"))
                         {
                             //Setup target dir
                             string targetdir = sourceFolder + "/files/" + Path.GetDirectoryName(entry.FullName);
@@ -105,6 +105,30 @@ namespace DemoHeatmap.steam
 
                 return toSave;
             }
+        }
+
+        public static List<mapData> getSavedMaps()
+        {
+            List<mapData> all = new List<mapData>(); //Holds all the map instances
+
+            //The list of directories to check when looking for maps
+            List<string> checkDirs = new List<string>();
+            checkDirs.Add("maps");
+            checkDirs.Add("maps/workshop");
+
+            //Loop each directory
+            foreach (string check in checkDirs)
+            {
+                //Loop each map
+                foreach (string mapfile in Directory.GetFiles(check, "*.maprad"))
+                {
+                    mapData instance = serialwrite.Binary.ReadFromBinaryFile<mapData>(mapfile);
+                    all.Add(instance);
+                }
+            }
+
+            //Return all the map files
+            return all;
         }
     }
 }

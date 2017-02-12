@@ -30,12 +30,6 @@ namespace DemoHeatmapGUI
         {
             InitializeComponent();
 
-            InstallMapOfflineDialogue testDiag = new InstallMapOfflineDialogue(new mapData(), "workshop/503714165de_nausia");
-
-            testDiag.Show();
-
-            return;
-
             //Run {CHECK} first time setup before running anything else
             if (!File.Exists("demos"))
             {
@@ -46,7 +40,7 @@ namespace DemoHeatmapGUI
             checkForUpdates();
 
             //Load demos onto the stack panel
-            doLoad();
+            doLoadDemos();
         }
 
         //Update checking method
@@ -86,10 +80,10 @@ namespace DemoHeatmapGUI
                 }
             }
 
-            doLoad();
+            doLoadDemos();
         }
 
-        public void doLoad()
+        public void doLoadDemos()
         {
             List<demostat> stats = demoreading.getSavedDemos();
 
@@ -97,17 +91,27 @@ namespace DemoHeatmapGUI
 
             foreach (demostat stat in stats)
             {
-                LoadedDemoControl disp = new LoadedDemoControl(stat, this);
+                SavedMapControl disp = new SavedMapControl(stat, this);
                 
-
                 target_demofiles.Children.Add(disp);
+            }
+        }
 
+        public void doLoadMaps()
+        {
+            List<mapData> maps = bspinfo.getSavedMaps(); //Retrieve all the maps on disk
+            target_mapfiles.Children.Clear();
+
+            foreach (mapData dat in maps)
+            {
+                //SavedMapControl mapControl = new SavedMapControl(dat);
+                //target_mapfiles.Children.Add(mapControl);
             }
         }
 
         private void btn_click_refresh(object sender, RoutedEventArgs e)
         {
-            doLoad();
+            doLoadDemos();
         }
     }
 }

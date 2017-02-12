@@ -20,13 +20,13 @@ namespace DemoHeatmapGUI.controls
     /// <summary>
     /// Interaction logic for LoadedDemoControl.xaml
     /// </summary>
-    public partial class LoadedDemoControl : UserControl
+    public partial class SavedMapControl : UserControl
     {
         // ----------------------------------------------------------- //
         // TODO: CHECK IF MAP IS INSTALLED AND ADD WARNING IF IT INS'T //
         // ----------------------------------------------------------- //
 
-        public LoadedDemoControl(demostat dispStat, MainWindow main)
+        public SavedMapControl(demostat dispStat, MainWindow main)
         {
             InitializeComponent();
 

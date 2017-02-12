@@ -42,32 +42,34 @@ namespace DemoHeatmapGUI
             foreach (p_Player player in refInstance.players.Values.ToArray())
             {
                 //Add all the players into the initialised box
-                enabledSteamIDS.Add(player.steamID, true);
-
-                //New checkbox with player name
-                CheckBox playerCheckBox = new CheckBox();
-                playerCheckBox.Content = player.steamName;
-
-                //Enable it on the player dict
-                playerCheckBox.Checked += (sender, e) =>
+                if (!enabledSteamIDS.ContainsKey(player.steamID))
                 {
-                    enabledSteamIDS[player.steamID] = true;
-                }; //Or disable
-                playerCheckBox.Unchecked += (sender, e) =>
-                {
-                    enabledSteamIDS[player.steamID] = false;
-                };
+                    enabledSteamIDS.Add(player.steamID, true);
+                    //New checkbox with player name
+                    CheckBox playerCheckBox = new CheckBox();
+                    playerCheckBox.Content = player.steamName;
 
-                //Auto check
-                playerCheckBox.IsChecked = true;
+                    //Enable it on the player dict
+                    playerCheckBox.Checked += (sender, e) =>
+                    {
+                        enabledSteamIDS[player.steamID] = true;
+                    }; //Or disable
+                    playerCheckBox.Unchecked += (sender, e) =>
+                    {
+                        enabledSteamIDS[player.steamID] = false;
+                    };
 
-                if (player.rounds.Count > 0)
-                {
-                    //Going by last round because of bug in parsing saying round is CT on first
-                    if (player.rounds.Last().teamPlayedOnRound == p_Team_Identifier.counterterrorist)
-                        target_playerpanel_T.Children.Add(playerCheckBox);
-                    else
-                        target_playerpanel_CT.Children.Add(playerCheckBox);
+                    //Auto check
+                    playerCheckBox.IsChecked = true;
+
+                    if (player.rounds.Count > 0)
+                    {
+                        //Going by last round because of bug in parsing saying round is CT on first
+                        if (player.rounds.Last().teamPlayedOnRound == p_Team_Identifier.counterterrorist)
+                            target_playerpanel_T.Children.Add(playerCheckBox);
+                        else
+                            target_playerpanel_CT.Children.Add(playerCheckBox);
+                    }
                 }
             }
             #endregion

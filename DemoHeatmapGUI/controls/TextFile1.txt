@@ -1,0 +1,12 @@
+﻿ <Expander x:Name="target_mapname" Header="target__mapname" Background="#FFCBCBCB">
+        <DockPanel>
+            <StackPanel Orientation="Horizontal">
+                <Image x:Name="target_radarpreview" Source="/DemoHeatmapGUI;component/images/missing_image.png" Height="80"/>
+            </StackPanel>
+            <StackPanel>
+                <Label x:Name="target_offset_x" Content="target__offset__x" IsEnabled="False"/>
+                <Label x:Name="target_offset_y" Content="target__offset__y" IsEnabled="False"/>
+                <Label x:Name="target_scale" Content="target__scale" IsEnabled="False"/>
+            </StackPanel>
+        </DockPanel>
+    </Expander>

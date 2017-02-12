@@ -49,7 +49,7 @@ namespace DemoHeatmapGUI
             demoreading.saveDemo(instance, stat);
             MessageBox.Show("Done!");
 
-            sentfrom.doLoad();
+            sentfrom.doLoadDemos();
         }
     }
 }

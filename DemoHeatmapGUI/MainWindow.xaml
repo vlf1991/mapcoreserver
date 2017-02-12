@@ -56,7 +56,12 @@
                     <TabItem.Header>
                         <Label Content="Manage Levels"/>
                     </TabItem.Header>
-                    <Label>... Not yet complete ...</Label>
+                    
+                    <ScrollViewer x:Name="target_maplist" HorizontalContentAlignment="Center" PanningMode="VerticalOnly" SnapsToDevicePixels="True" CanContentScroll="True" Grid.Row="1" Background="#FFF1F1F1" AllowDrop="True" Drop="DemoPanel_Drop">
+                        <StackPanel x:Name="target_mapfiles" CanVerticallyScroll="True">
+                            
+                        </StackPanel>
+                    </ScrollViewer>
                 </TabItem>
             </TabControl>
         </Grid>
