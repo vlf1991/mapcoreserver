@@ -11,11 +11,19 @@
             <StackPanel Orientation="Horizontal">
                 <Image x:Name="target_radarpreview" Source="/DemoHeatmapGUI;component/images/missing_image.png" Height="80"/>
             </StackPanel>
-            <StackPanel>
-                <Label x:Name="target_offset_x" Content="target__offset__x" IsEnabled="False"/>
-                <Label x:Name="target_offset_y" Content="target__offset__y" IsEnabled="False"/>
-                <Label x:Name="target_scale" Content="target__scale" IsEnabled="False"/>
-            </StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <Label x:Name="target_offset_x" Content="target__offset__x" IsEnabled="False"/>
+                    <Label x:Name="target_offset_y" Content="target__offset__y" IsEnabled="False"/>
+                    <Label x:Name="target_scale" Content="target__scale" IsEnabled="False"/>
+                </StackPanel>
+
+                <Button Content="Edit" Click="btn_edit_click" Grid.Column="1"/>
+            </Grid>
         </DockPanel>
     </Expander>
 </UserControl>

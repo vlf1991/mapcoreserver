@@ -107,7 +107,10 @@ namespace DemoHeatmapGUI
 
             foreach (string mapPath in maps.Keys)
             {
-                SavedMapControl mapControl = new SavedMapControl(maps[mapPath], Path.GetFileNameWithoutExtension(mapPath));
+                //Makes sure the path is reletive
+                string localpath = mapPath.Replace("maps", "").Replace(".maprad", "").Replace("\\", "/");
+
+                SavedMapControl mapControl = new SavedMapControl(maps[mapPath], localpath);
                 target_mapfiles.Children.Add(mapControl);
             }
         }

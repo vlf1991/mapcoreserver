@@ -22,9 +22,15 @@ namespace DemoHeatmapGUI.controls
     /// </summary>
     public partial class SavedMapControl : UserControl
     {
+        mapData dat;
+        string name;
+
         public SavedMapControl(mapData mapdat, string mapname)
         {
             InitializeComponent();
+
+            dat = mapdat;
+            name = mapname;
 
             //Sets all the params respectively
             target_mapname.Header = mapname;
@@ -32,6 +38,12 @@ namespace DemoHeatmapGUI.controls
             target_offset_y.Content = "Offset Y: " + mapdat.radar.pos_y;
             target_scale.Content = "Radar Scale: " + mapdat.radar.scale;
             target_radarpreview.Source = mapdat.image_radar.toBitMapImage();
+        }
+
+        private void btn_edit_click(object sender, RoutedEventArgs e)
+        {
+            InstallMapOfflineDialogue editDiag = new InstallMapOfflineDialogue(dat, name);
+            editDiag.Show();
         }
     }
 }
